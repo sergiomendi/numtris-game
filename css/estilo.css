@@ -1,0 +1,72 @@
+
+body h2{
+   text-align: center;
+   margin-top: 50px;
+}
+#tablaPuntuaciones {
+    border-collapse: collapse;
+    background-color: white;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  #tablaPuntuaciones th {
+    background-color: #ffde39;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  #tablaPuntuaciones td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  #tablaPuntuaciones tbody tr:first-child {
+    font-weight: bold;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(1) td {
+    color: red;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(2) td {
+    color: orange;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(3) td {
+    color: yellow;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(4) td {
+    color: green;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(5) td {
+    color: blue;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(6) td {
+    color: purple;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(7) td {
+    color: brown;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(8) td {
+    color: gray;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(9) td {
+    color: black;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(10) td {
+    color: darkgray;
+  }
+  
