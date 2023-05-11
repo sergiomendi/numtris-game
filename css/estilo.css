@@ -1,4 +1,7 @@
 
+/* INDEX.HTML ------------------------------------------------------------------- */
+
+
 body h2{
    text-align: center;
    margin-top: 50px;
@@ -39,7 +42,7 @@ body h2{
   }
   
   #tablaPuntuaciones tbody tr:nth-child(3) td {
-    color: yellow;
+    color: rgb(202, 216, 0);
   }
   
   #tablaPuntuaciones tbody tr:nth-child(4) td {
@@ -69,4 +72,9 @@ body h2{
   #tablaPuntuaciones tbody tr:nth-child(10) td {
     color: darkgray;
   }
+
+  #noResults{
+    text-align: center;
+  }
+/* INDEX.HTML ------------------------------------------------------------------- */
   
