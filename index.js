@@ -46,13 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (sessionStorage['_data_']) {
-
-        // inicialmente generar la tabla de puntuaciones
         generarTablaPuntuaciones();
     } else {
         const body = document.getElementById('body');
         const noResults = document.createElement('p');
-        noResults.id='noResults';
+        noResults.id = 'noResults';
         noResults.innerHTML = 'Todavía no hay puntuaciones guardadas.<br>¡¡¡Se el primero en conseguir una puntuación máxima!!!';
         body.appendChild(noResults);
     }
