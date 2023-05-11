@@ -1,0 +1,30 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+##################################################
+# RUTA COMPLETA DESDE LA CARPETA htdocs HASTA LA CARPETA api
+##################################################
+#   Si el path hasta la carpeta api es, por ejemplo
+#   para Windows, C:\xampp\htdocs\practica2\api,
+#   o, bien para Linux, /opt/lampp/htdocs/practica2/api,
+#   habría que poner lo siguiente: RewriteBase /practica2/api/
+RewriteBase /pcw/practica3/api/
+
+##################################################
+### REGLAS PARA TABLERO
+##################################################
+### PEDIR TABLERO ALEATORIO
+# Regla que redirige a api/get/tablero.php
+# Con esta línea de abajo, sólo acepta peticiones GET
+RewriteCond %{THE_REQUEST} ^GET
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^tablero(.*)$ get/tablero.php?_rec_=$1&%{QUERY_STRING} [L]
+
+### COMPROBAR JUGADAS EN EL TABLERO
+# Regla que redirige a api/post/comprobar.php
+# Con esta línea de abajo, sólo acepta peticiones POST
+RewriteCond %{THE_REQUEST} ^POST
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^comprobar(.*)$ post/comprobar.php?_rec_=$1&%{QUERY_STRING} [L]
