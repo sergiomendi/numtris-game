@@ -11,25 +11,44 @@
 </head>
 
 <body id="body">
-	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
-
-	<h2>Tabla de puntuaciones</h2>
-	<table id="tablaPuntuaciones">
-		<thead>
-			<tr>
-				<th>Posición</th>
-				<th>Nombre del jugador</th>
-				<th>Puntuación</th>
-			</tr>
-		</thead>
-		<tbody>
-
-		</tbody>
-	</table>
-
 
 	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
+	<div id="divPuntuaciones">
+		<h2>Tabla de puntuaciones</h2>
+		<table id="tablaPuntuaciones">
 
+			<thead>
+				<tr>
+					<th>Posición</th>
+					<th>Nombre del jugador</th>
+					<th>Puntuación</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+
+	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
+	<div id="general">
+		<div id="divFormulario">
+
+			<form>
+				<label>Jugador 1:</label>
+				<input type="text" id="player1" placeholder="Ingrese el nombre del jugador 1">
+
+				<label>Jugador 2:</label>
+				<input type="text" id="player2" placeholder="Ingrese el nombre del jugador 2">
+
+				<button type="button" onclick="startGame()">Comenzar Juego</button>
+				<button type="button" onclick="clearForm()">Limpiar Formulario</button>
+
+				<div id="error-message" class="error"></div>
+			</form>
+
+		</div>
+	</div>
 
 
 </body>

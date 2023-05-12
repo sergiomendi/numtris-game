@@ -8,6 +8,8 @@
 // }
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
+
+// *********************TABLA PUNTUACIONES*********************************************************
 document.addEventListener("DOMContentLoaded", function () {
     const puntuaciones = [
         // { nombre: 'Jugador 1', puntuacion: 50 },
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (sessionStorage['_data_']) {
         generarTablaPuntuaciones();
     } else {
-        const body = document.getElementById('body');
+        const body = document.getElementById('divPuntuaciones');
         const noResults = document.createElement('p');
         noResults.id = 'noResults';
         noResults.innerHTML = 'Todavía no hay puntuaciones guardadas.<br>¡¡¡Se el primero en conseguir una puntuación máxima!!!';
@@ -61,3 +63,29 @@ document.addEventListener("DOMContentLoaded", function () {
     // generarTablaPuntuaciones();
 
 });
+
+// *********************TABLA PUNTUACIONES*********************************************************
+
+
+// ***************FORMULARIO****************************************************
+
+
+function startGame() {
+    let player1 = document.getElementById("player1").value;
+    let player2 = document.getElementById("player2").value;
+
+    if (player1.trim() === "" || player2.trim() === "") {
+        document.getElementById("error-message").innerText = "Ambos nombres de jugadores son requeridos.";
+    } else {
+        document.getElementById("error-message").innerText = "";
+        // Aquí puedes agregar el código para comenzar el juego.
+    }
+}
+
+function clearForm() {
+    document.getElementById("player1").value = "";
+    document.getElementById("player2").value = "";
+    document.getElementById("error-message").innerText = "";
+}
+
+// ***************FORMULARIO*****************************************************

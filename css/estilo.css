@@ -1,7 +1,19 @@
 
 /* INDEX.HTML ------------------------------------------------------------------- */
 
-
+#body{
+  display: flex;
+  justify-content: start;
+  background-color: #FDEFDB;
+    
+}
+#divGeneral{
+ 
+}
+/* *******************TABLA PUNTUACIONES******************* */
+#divPuntuaciones{
+  margin-left: 30px;
+}
 body h2{
    text-align: center;
    margin-top: 50px;
@@ -15,7 +27,7 @@ body h2{
   }
   
   #tablaPuntuaciones th {
-    background-color: #ffde39;
+    background-color: #EDAA72;
     text-align: left;
     padding: 10px;
   }
@@ -76,5 +88,51 @@ body h2{
   #noResults{
     text-align: center;
   }
+
+/* *******************TABLA PUNTUACIONES******************* */
+
+
+  /* *******************FORMULARIO******************* */
+  #divFormulario{
+    margin-left: 200px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #2D8FA1;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #04CBEF;
+  }
+
+  .error {
+    color: red;
+    font-size: 18px;
+    margin: 5px;
+  }
+  /* *******************FORMULARIO******************* */
+
 /* INDEX.HTML ------------------------------------------------------------------- */
   
