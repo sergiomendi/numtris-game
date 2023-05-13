@@ -78,7 +78,13 @@ function startGame() {
         document.getElementById("error-message").innerText = "Ambos nombres de jugadores son requeridos.";
     } else {
         document.getElementById("error-message").innerText = "";
-        // Aquí puedes agregar el código para comenzar el juego.
+        let res={
+           "jugador1":player1,
+           "jugador2":player2
+
+        }
+        sessionStorage['JUGADORES'] = JSON.stringify(res);
+        location.href='juego.html';
     }
 }
 
