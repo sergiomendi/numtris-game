@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>index</title>
 
 	<link rel="stylesheet" href="./CSS/estilo.css">
 	<link rel="stylesheet" href="./CSS/fontello.css">
@@ -12,46 +12,81 @@
 </head>
 
 <body id="body">
-
-	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
-	<div id="divPuntuaciones">
-		<h2><span class="icon-crown" title="crown"></span>CLASIFICACIONES <span class="icon-crown" title="crown"></span></h2>
+	<header>
+		<section>
+			<h2 hidden>evitar warnings</h2>
+			<a href="index.html">
+				<img src="logo.png" alt="logo de la pagina" width="125" height="125">
+			</a>
+			<article id="titysub">
+				<h2>NumTris</h2>
+				<p>El juego de mesa</p>
+			</article>
+		</section>
 		
-		<table id="tablaPuntuaciones">
+		<div>
+			<nav>	
+			<input type="checkbox" id="Menu">
+			<label for="Menu">&equiv;</label>	
+				<ul>
+					<li id="aviso"><a href="#player1" ><span class="navti">indroduce el nombre de los jugadores para jugar</span></a></li>
+					<!-- <li id="index" hidden><a href="index.html" ><span class="navti">Inicio</span></a></li >
+					<li id="juego" hidden><a href="juego.html" ><span class="navti">Juego</span></a></li >
+					<li id="acerca" hidden><a href="acerca.html"><span class="navti">Acerca de</span></a></li > -->
+				</ul>
+			</nav>
+		</div>
 
-			<thead>
-				<tr>
-					<th>Posición</th>
-					<th>Nombre del jugador</th>
-					<th>Puntuación</th>
-				</tr>
-			</thead>
-			<tbody>
+	</header>
 
-			</tbody>
-		</table>
-	</div>
+
+	<div id="contenedores">
+	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
+		<div id="divPuntuaciones">
+			<h2><span class="icon-crown" title="crown"></span>CLASIFICACIONES <span class="icon-crown" title="crown"></span></h2>
+			
+			<table id="tablaPuntuaciones">
+
+				<thead>
+					<tr>
+						<th>Posición</th>
+						<th>Nombre del jugador</th>
+						<th>Puntuación</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
 
 	<!-------------- TABLA DE PUNTUACIONES ----------------------------------->
-	<div id="general">
-		<div id="divFormulario">
+		<div id="general">
+			<div id="divFormulario">
 
-			<form>
-				<label>Jugador 1:</label>
-				<input type="text" id="player1" placeholder="Ingrese el nombre del jugador 1">
+				<form>
+					<label>Jugador 1:</label>
+					<input type="text" id="player1" placeholder="Ingrese el nombre del jugador 1">
 
-				<label>Jugador 2:</label>
-				<input type="text" id="player2" placeholder="Ingrese el nombre del jugador 2">
+					<label>Jugador 2:</label>
+					<input type="text" id="player2" placeholder="Ingrese el nombre del jugador 2">
 
-				<button type="button" onclick="startGame()">Comenzar Juego</button>
-				<button type="button" onclick="clearForm()">Limpiar Formulario</button>
+					<button type="button" onclick="startGame()">Comenzar Juego</button>
+					<button type="button" onclick="clearForm()">Limpiar Formulario</button>
 
-				<div id="error-message" class="error"></div>
-			</form>
+					<div id="error-message" class="error"></div>
+				</form>
 
+			</div>
 		</div>
 	</div>
 
+	<footer>
+  		<a href="acerca.html">acerca</a>	
+  		<p>&copy;copyrigth 2023-PCW</p>
+  		<p><strong>Autor</strong>: Jorge Ramos Sanchez</p>
+  		<p><strong>Autor</strong>: Sergio Manrique Mendiola</p>
+	</footer>
 
 </body>
 

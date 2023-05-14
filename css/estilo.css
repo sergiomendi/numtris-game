@@ -1,13 +1,21 @@
+@import url("comun.css");
+
 /* INDEX.HTML ------------------------------------------------------------------- */
 
-#body {
-  display: flex;
+body {
+  margin: 0;
+  display: block;
   justify-content: start;
   background-color: #FDEFDB;
 
 }
 
 #divGeneral {}
+
+#contenedores{
+  display: flex;
+  height: 500px;
+}
 
 /* *******************TABLA PUNTUACIONES******************* */
 #divPuntuaciones {
@@ -145,3 +153,8 @@ button:hover {
 /*****************ICONOS***************************/
 
 /* INDEX.HTML ------------------------------------------------------------------- */
+
+
+#juegocanvas{
+  height: 500px;
+}

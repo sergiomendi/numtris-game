@@ -4,7 +4,7 @@ body > header > section
 		align-items: center;
 		display: flex;
 		justify-content: center;
-		background-color:darkgreen;
+		background-color:#2D8FA1;
 		border: 0.25em solid #000;
 	}
 
@@ -13,6 +13,20 @@ body > header > section
 
 		text-align: center;
 		padding-left: 10px;
+	}
+
+	body > footer
+	{
+		border-top: 0.25em solid #000;
+		border-bottom: 0.25em solid #000;
+		display:flex;
+		align-items: center;
+		justify-content: space-evenly;	
+		text-align: center;	
+		background-color: #CDCDCD;
+  		bottom: 0;	
+  		font-family: 'Shantell Sans', cursive;
+  		margin-top: 1em;
 	}
 
 
@@ -34,7 +48,7 @@ body > header > section
 	}
 
 	body>header>div > nav {
-		background-color: #CDCDCD;
+		background-color: #EDAA72;
 		border-bottom: 0.25em solid #000;	
 		border-left: 0.25em solid #000;
 		border-right: 0.25em solid #000;
