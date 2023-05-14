@@ -1,3 +1,14 @@
+const ANCHO = 480;
+const ALTO = 360;
+//PREPARAR CANVAS
+function prepararCanvas(){
+    let cv = document.querySelector('#cv');
+
+    cv.width = ANCHO;
+    cv.height = ALTO;
+
+}
+
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
 if(sessionStorage['JUGADORES']){
@@ -7,6 +18,32 @@ if(sessionStorage['JUGADORES']){
 }
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
+if(!sessionStorage['PARTIDA'])
+{
+    let xhr = new XMLHttpRequest(),
+        url = 'api/tablero',
+        r;
+
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        console.log(xhr.status)
+        xhr.onload = function()
+        {   
+            r = xhr.response;
+            console.log(r);
+            console.log('Respuesta del servidor:', r);
+            if(r.RESULTADO == 'OK')
+            {
+                sessionStorage.removeItem('_datos_');
+                console.log('Datos de sesión eliminados correctamente');
+            }
+        };
+        console.log('Enviando petición de logout...');
+        xhr.send();    
+}
+else{
+
+}
 
 //Botones nav -----------------------------------------------------------------------
 

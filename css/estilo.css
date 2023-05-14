@@ -155,6 +155,17 @@ button:hover {
 /* INDEX.HTML ------------------------------------------------------------------- */
 
 
+
+/*ESTO ES DE JUEGO.HTML*/
 #juegocanvas{
   height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas{
+
+  margin-top:1em;
+  border:4px solid black;
 }
