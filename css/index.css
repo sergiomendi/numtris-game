@@ -1,0 +1,156 @@
+@import url("comun.css");
+
+
+/* INDEX.HTML ------------------------------------------------------------------- */
+
+body {
+    margin: 0;
+    display: block;
+    justify-content: start;
+    background-color: #FDEFDB;
+  
+  }
+  
+  #divGeneral {}
+  
+  #contenedores{
+    display: flex;
+    height: 500px;
+  }
+  
+  /* *******************TABLA PUNTUACIONES******************* */
+  #divPuntuaciones {
+    margin-left: 20px;
+  }
+  
+  body h2 {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  #tablaPuntuaciones {
+    border-collapse: collapse;
+    background-color: white;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  #tablaPuntuaciones th {
+    background-color: #EDAA72;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  #tablaPuntuaciones td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  #tablaPuntuaciones tbody tr:first-child {
+    font-weight: bold;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(1) td {
+    color: red;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(2) td {
+    color: orange;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(3) td {
+    color: rgb(202, 216, 0);
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(4) td {
+    color: green;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(5) td {
+    color: blue;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(6) td {
+    color: purple;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(7) td {
+    color: brown;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(8) td {
+    color: gray;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(9) td {
+    color: black;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(10) td {
+    color: darkgray;
+  }
+  
+  #noResults {
+    text-align: center;
+  }
+  
+  /* *******************TABLA PUNTUACIONES******************* */
+  
+  
+  /* *******************FORMULARIO******************* */
+  #divFormulario {
+    margin-left: 160px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #2D8FA1;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #04CBEF;
+  }
+  
+  .error {
+    color: red;
+    font-size: 18px;
+    margin: 5px;
+  }
+  
+  /* *******************FORMULARIO******************* */
+  
+  /*****************ICONOS***************************/
+  .icon-crown {
+    color: #2D8FA1;
+  }
+  
+  /*****************ICONOS***************************/
+  
+  /* INDEX.HTML ------------------------------------------------------------------- */
