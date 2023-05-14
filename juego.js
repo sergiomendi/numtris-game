@@ -7,6 +7,7 @@ function prepararCanvas(){
     cv.width = ANCHO;
     cv.height = ALTO;
 
+
 }
 
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
@@ -34,8 +35,36 @@ if(!sessionStorage['PARTIDA'])
             console.log('Respuesta del servidor:', r);
             if(r.RESULTADO == 'OK')
             {
-                sessionStorage.removeItem('_datos_');
-                console.log('Datos de sesión eliminados correctamente');
+                let cv = document.querySelector('#cv'),
+                    ctx = cv.getContext('2d'),
+                    celdas = 4,
+                    anchocelda= ANCHO/4,
+                    altocelda= ALTO/4;
+
+                ctx.beginPath();
+                ctx.strokeStyle = 'blue';
+                ctx.lineWidth = 2;
+
+                for(let i = 1 ; i<celdas ; i++)
+                {
+                    //verticales
+                    ctx.moveTo(i* anchocelda,0);
+                    ctx.lineTo(i * anchocelda, ALTO);
+                    //horizontales
+                    ctx.moveTo(0,i*altocelda);
+                    ctx.lineTo(ANCHO, i*altocelda);
+                }
+                let numeroAleatorio = Math.round(Math.random());
+                if (numeroAleatorio==0) {
+                    //turno para jugador 1
+                }else{
+                    //turno para jugador 2
+                }
+                console.log(numeroAleatorio); // Imprimir el número aleatorio generado en la consola
+
+                ctx.stroke();
+                ponerEventos(r);
+
             }
         };
         console.log('Enviando petición de logout...');
@@ -43,6 +72,33 @@ if(!sessionStorage['PARTIDA'])
 }
 else{
 
+}
+
+function ponerEventos(r){
+    let cv = document.querySelector('#cv');
+
+    for(let i = 0;i<r.TABLERO.length;i++){
+        for(let j = 0; j<r.TABLERO[i].length;j++){
+            if (r.TABLERO[i][j] == -1) 
+            {
+                
+            }
+        }
+    }
+
+    cv.addEventListener('click', function(evt){//nos interesa offset x y off set y
+        let x = evt.offsetX;
+        let y = evt.offsetY,
+            altocelda=ALTO/4,
+            anchocelda=ANCHO/4,
+            fila,col;
+        //console.log(`(x,y)${x} ${y}`);
+        fila =Math.floor( y/altocelda);
+        col = Math.floor(x/anchocelda);
+
+        console.log(`(fila,col)${fila} ${col}`);
+
+    });
 }
 
 //Botones nav -----------------------------------------------------------------------

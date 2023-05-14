@@ -16,6 +16,8 @@ body {
   #contenedores{
     display: flex;
     height: 500px;
+    justify-content: space-evenly;
+/*    align-items: center;*/
   }
   
   /* *******************TABLA PUNTUACIONES******************* */
@@ -104,7 +106,7 @@ body {
   
   /* *******************FORMULARIO******************* */
   #divFormulario {
-    margin-left: 700px;
+/*   margin-left: 90%;*/
   }
   
   form {
