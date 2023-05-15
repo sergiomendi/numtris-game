@@ -18,4 +18,31 @@
     margin-top:1em;
     border:4px solid black;
   }
+
+  #tablaPuntuaciones {
+    border-collapse: collapse;
+    background-color: white;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  #tablaPuntuaciones th {
+    background-color: #EDAA72;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  #tablaPuntuaciones td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+
+  #tablaPuntuaciones tbody tr:nth-child(1) td {
+    color: red;
+  }
+  
+  #tablaPuntuaciones tbody tr:nth-child(2) td {
+    color: orange;
+  }
   

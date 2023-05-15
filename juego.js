@@ -55,8 +55,9 @@ if(!sessionStorage['PARTIDA'])
             console.log('Respuesta del servidor:', r);
             if(r.RESULTADO == 'OK')
             {
-                ponerEventos(r);
+                
 
+                ponerEventos(r);
             }
         };
         xhr.send();    
@@ -68,14 +69,29 @@ else{
 function ponerEventos(r){
     let numeroAleatorio = Math.round(Math.random());
     let turnoJugador1="espera",
-        turnojugador2 = "espera"
+        turnojugador2 = "espera";
     if (numeroAleatorio==0) 
     {
         turnoJugador1="juega";
     }else{
         turnojugador2="juega";
     }
-    console.log(numeroAleatorio); // comprobar si funciona
+    console.log(numeroAleatorio);
+    let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+    let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+                
+
+    var tbody = document.querySelector('#tablaPuntuaciones tbody');
+
+    var filajug1 = document.createElement('tr');
+    filajug1.innerHTML = `<td>${turnoJugador1}</td><td>${jug11}</td><td>0</td>`
+    tbody.appendChild(filajug1);
+
+    var filajug2 = document.createElement('tr');
+    filajug2.innerHTML = `<td>${turnojugador2}</td><td>${jug22}</td><td>0</td>`
+    tbody.appendChild(filajug2);
+
+    // comprobar si funciona
 
     //generar los tres numeros aleatorios
     let numeros = [];
