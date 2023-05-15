@@ -2,7 +2,7 @@
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
 if(sessionStorage['PARTIDA']){
-    location.ref="juego.html";
+    location.href="juego.html";
     console.log('entra?')
 }else{
     location.href='index.html';
