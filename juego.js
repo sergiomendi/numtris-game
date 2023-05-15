@@ -7,6 +7,26 @@ function prepararCanvas(){
     cv.width = ANCHO;
     cv.height = ALTO;
 
+    ctx = cv.getContext('2d'),
+    celdas = 4,
+    anchocelda= ANCHO/4,
+    altocelda= ALTO/4;
+    //crear celdas--------------------------------------------------------------------------------
+    ctx.beginPath();
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 2;
+
+    for(let i = 1 ; i<celdas ; i++)
+    {
+    //verticales
+    ctx.moveTo(i* anchocelda,0);
+    ctx.lineTo(i * anchocelda, ALTO);
+    //horizontales
+    ctx.moveTo(0,i*altocelda);
+    ctx.lineTo(ANCHO, i*altocelda);
+    }
+
+    ctx.stroke();
 
 }
 
@@ -35,39 +55,10 @@ if(!sessionStorage['PARTIDA'])
             console.log('Respuesta del servidor:', r);
             if(r.RESULTADO == 'OK')
             {
-                let cv = document.querySelector('#cv'),
-                    ctx = cv.getContext('2d'),
-                    celdas = 4,
-                    anchocelda= ANCHO/4,
-                    altocelda= ALTO/4;
-
-                ctx.beginPath();
-                ctx.strokeStyle = 'blue';
-                ctx.lineWidth = 2;
-
-                for(let i = 1 ; i<celdas ; i++)
-                {
-                    //verticales
-                    ctx.moveTo(i* anchocelda,0);
-                    ctx.lineTo(i * anchocelda, ALTO);
-                    //horizontales
-                    ctx.moveTo(0,i*altocelda);
-                    ctx.lineTo(ANCHO, i*altocelda);
-                }
-                let numeroAleatorio = Math.round(Math.random());
-                if (numeroAleatorio==0) {
-                    //turno para jugador 1
-                }else{
-                    //turno para jugador 2
-                }
-                console.log(numeroAleatorio); // Imprimir el número aleatorio generado en la consola
-
-                ctx.stroke();
                 ponerEventos(r);
 
             }
         };
-        console.log('Enviando petición de logout...');
         xhr.send();    
 }
 else{
@@ -75,7 +66,32 @@ else{
 }
 
 function ponerEventos(r){
-    let cv = document.querySelector('#cv');
+    let numeroAleatorio = Math.round(Math.random());
+    if (numeroAleatorio==0) 
+    {
+         //turno para jugador 1
+    }else{
+        //turno para jugador 2
+    }
+    console.log(numeroAleatorio); // comprobar si funciona
+
+    //generar los tres numeros aleatorios
+    let numeros = [];
+    while (numeros.length < 3) {
+        let numero = Math.floor(Math.random() * 9) + 1;
+        if (numero !== 5 && !numeros.includes(numero)) 
+        {
+            numeros.push(numero);
+        }
+    }
+    console.log(numeros);
+
+    let res ={
+        "numerosElegibles": numeros,
+        "turno":numeroAleatorio
+    }
+    sessionStorage['PARTIDA'] = JSON.stringify(res);
+
 
     for(let i = 0;i<r.TABLERO.length;i++){
         for(let j = 0; j<r.TABLERO[i].length;j++){
