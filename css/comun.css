@@ -107,7 +107,7 @@ body > header > section
 	}
 
 	body>header>div > nav {
-		background-color: #CDCDCD;
+		background-color: #EDAA72;
 		border-bottom: 0.25em solid #000;	
 		border-left: 0.25em solid #000;
 		border-right: 0.25em solid #000;
@@ -145,7 +145,7 @@ body > header > section
 
 @media (max-width: 600.9px){
 	body > header > div > nav{
-		background-color: #CDCDCD;
+		background-color: #EDAA72;
 	}
 	body>header >div>nav>ul{
 		display:none;		
@@ -181,7 +181,7 @@ body > header > section
 
 	body>header>div>nav>ul>li{
 		display: block;	
-		background: #CDCDCD;
+		background: #EDAA72;
 		margin: 0;
 		padding: 10px;
 		list-style: none;

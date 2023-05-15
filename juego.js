@@ -67,11 +67,13 @@ else{
 
 function ponerEventos(r){
     let numeroAleatorio = Math.round(Math.random());
+    let turnoJugador1="espera",
+        turnojugador2 = "espera"
     if (numeroAleatorio==0) 
     {
-         //turno para jugador 1
+        turnoJugador1="juega";
     }else{
-        //turno para jugador 2
+        turnojugador2="juega";
     }
     console.log(numeroAleatorio); // comprobar si funciona
 
@@ -85,10 +87,21 @@ function ponerEventos(r){
         }
     }
     console.log(numeros);
-
+    let copiatablero = r.TABLERO;
+    let jug1 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+    let jug2 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+    let puntuacion1= 0;
+    let puntuacion2= 0;
+    console.log(copiatablero)
     let res ={
+        "jugador1":jug1,
+        "jugador2":jug2,
+        "tablero":copiatablero,
         "numerosElegibles": numeros,
-        "turno":numeroAleatorio
+        "turnojug1":turnoJugador1,
+        "turnojug2":turnojugador2,
+        "puntuacion1":puntuacion1,
+        "puntuacion2":puntuacion2,
     }
     sessionStorage['PARTIDA'] = JSON.stringify(res);
 

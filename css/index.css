@@ -8,6 +8,7 @@ body {
     display: block;
     justify-content: start;
     background-color: #FDEFDB;
+    min-width: 400px;
   
   }
   
@@ -156,3 +157,24 @@ body {
   /*****************ICONOS***************************/
   
   /* INDEX.HTML ------------------------------------------------------------------- */
+
+/*INDEX RESPONSIVE*/
+@media (max-width: 710px)
+{
+  #contenedores
+  {
+    display:grid;
+    grid-template-areas: 
+    "contenedor1"
+    "contenedor2"
+    ;
+  }
+  #divPuntuaciones{
+    grid-area:contenedor1;
+  }
+  #general{
+    grid-area:contenedor2;
+  }
+
+
+}

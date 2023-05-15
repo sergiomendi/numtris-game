@@ -1,11 +1,12 @@
 
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
-// if(sessionStorage['_data_']){
-//     location.ref="juego.html";
-// }else{
-//     location.href='index.html';
-// }
+if(sessionStorage['PARTIDA']){
+    location.ref="juego.html";
+    console.log('entra?')
+}else{
+    location.href='index.html';
+}
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
 
