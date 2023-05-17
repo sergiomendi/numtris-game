@@ -2,7 +2,32 @@
 const ANCHO = 480;
 const ALTO = 360;
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
+
 function prepararCanvas() {
+
+//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO ---------------
+if (!sessionStorage['PARTIDA']) {
+    let xhr = new XMLHttpRequest(),
+        url = 'api/tablero',
+        r;
+
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    console.log(xhr.status)
+    xhr.onload = function () {
+        r = xhr.response;
+        console.log(r);
+        if (r.RESULTADO == 'OK') {
+            ponerEventos(r);
+        }
+    };
+    xhr.send();
+}
+else {
+
+}
+
+//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO --------------
     let cv = document.querySelector('#cv');
 
     cv.width = ANCHO;
@@ -27,6 +52,7 @@ function prepararCanvas() {
     }
 
     ctx.stroke();
+    tablaNumeros();
 
 }
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
@@ -39,29 +65,7 @@ if (sessionStorage['JUGADORES']) {
     location.href = 'index.html';
 }
 // --------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
-//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO --------------------------------------------
-if (!sessionStorage['PARTIDA']) {
-    let xhr = new XMLHttpRequest(),
-        url = 'api/tablero',
-        r;
 
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    console.log(xhr.status)
-    xhr.onload = function () {
-        r = xhr.response;
-        console.log(r);
-        if (r.RESULTADO == 'OK') {
-            ponerEventos(r);
-        }
-    };
-    xhr.send();
-}
-else {
-
-}
-
-//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO -------------------------------------------
 
 
 function ponerEventos(r) {
@@ -141,7 +145,7 @@ function ponerEventos(r) {
 
     });
 
-    tablaNumeros(numeros);
+    tablaNumeros();
 }
 
 //Botones nav -----------------------------------------------------------------------
@@ -175,7 +179,7 @@ function cerrarDialogo(valor) {
 }
 
 //Actualizar tabla
-
+document.addEventListener("DOMContentLoaded", function () {
     function actualizarTabla() {
         let tbody = document.getElementById('datostabla');
         document.addEventListener('DOMContentLoaded', function () {
@@ -204,16 +208,16 @@ function cerrarDialogo(valor) {
     }
     actualizarTabla();
 
-
+});
     function tablaNumeros() {
         let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
         console.log(numeros);
-        let nums = document.getElementById('nums')
+        let nums = document.getElementById('nums');
         for (let i = 0; i < numeros.length; i++) {
-            let div = document.createElement('div');
+            let div = document.createElement('button');
+            div.classList.add("numerosElegibles");
             div.innerHTML = numeros[i];
             nums.appendChild(div);
 
         }
     }
-    tablaNumeros();
