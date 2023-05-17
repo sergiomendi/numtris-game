@@ -1,6 +1,7 @@
 
 const ANCHO = 480;
 const ALTO = 360;
+
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
 if (sessionStorage['JUGADORES']) {
@@ -46,8 +47,8 @@ function prepararCanvas() {
             }
         };
         xhr.send();
-        
-        
+
+
     }
     else {
 
@@ -78,10 +79,6 @@ function prepararCanvas() {
     }
 
     ctx.stroke();
-   
-   
-    
-
 
 }
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
@@ -89,46 +86,47 @@ async function actualizarTabla() {
     await esperarCargaSessionStorage();             // Espera a que el session storage se cargue
     console.log("ACTUALIZA");
     let tbody = document.getElementById('datostabla');
-   
-        let fila1 = 0; // Índice de la primera fila
-        let fila2 = 1; // Índice de la segunda fila
-        let columna1 = 0; // Índice de la primera columna
-        let columna2 = 1; // Índice de la segunda columna
-        let columna3 = 2; // Índice de la tercera columna
 
-        let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
-        let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+    let fila1 = 0; // Índice de la primera fila
+    let fila2 = 1; // Índice de la segunda fila
+    let columna1 = 0; // Índice de la primera columna
+    let columna2 = 1; // Índice de la segunda columna
+    let columna3 = 2; // Índice de la tercera columna
 
-        let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
-        let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
+    let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+    let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
 
-        let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
-        let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
+    let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
+    let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
 
-        document.getElementById('turno1').innerHTML = `${turnojug11}`;
-        document.getElementById('nombre1').innerHTML = `${jug11}`;
-        document.getElementById('punt1').innerHTML = `${punt1}`;
-        document.getElementById('turno2').innerHTML = `${turnojug22}`;
-        document.getElementById('nombre2').innerHTML = `${jug22}`;
-        document.getElementById('punt2').innerHTML = `${punt2}`;
+    let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
+    let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
+
+    document.getElementById('turno1').innerHTML = `${turnojug11}`;
+    document.getElementById('nombre1').innerHTML = `${jug11}`;
+    document.getElementById('punt1').innerHTML = `${punt1}`;
+    document.getElementById('turno2').innerHTML = `${turnojug22}`;
+    document.getElementById('nombre2').innerHTML = `${jug22}`;
+    document.getElementById('punt2').innerHTML = `${punt2}`;
     // Tu código aquí
-  }
-  actualizarTabla();
+}
+actualizarTabla();
 
 // ----------------FUNCIÓN PROMESA PARA ESPERAR AL SESSION STORAGE-----------------------------------
 function esperarCargaSessionStorage() {
     return new Promise((resolve) => {
-      const intervalo = setInterval(() => {
-        if (sessionStorage.getItem('PARTIDA')) {
-          clearInterval(intervalo);
-          resolve();
-        }
-      }, 100); // Comprueba cada 100 milisegundos si el session storage se ha cargado
+        const intervalo = setInterval(() => {
+            if (sessionStorage.getItem('PARTIDA')) {
+                clearInterval(intervalo);
+                resolve();
+            }
+        }, 100); // Comprueba cada 100 milisegundos si el session storage se ha cargado
     });
-  }
+}
 // ----------------FUNCIÓN PROMESA PARA ESPERAR AL SESSION STORAGE-----------------------------------
 
 function ponerEventos(r) {
+    let celdasClicables=true;
     let numeroAleatorio = Math.round(Math.random());
     let turnoJugador1 = "espera",
         turnojugador2 = "espera";
@@ -170,7 +168,6 @@ function ponerEventos(r) {
     let puntuacion1 = 0;
     let puntuacion2 = 0;
     console.log(copiatablero)
-    console.log("CREA SESSION");
 
     let res = {
         "jugador1": jug1,
@@ -188,7 +185,8 @@ function ponerEventos(r) {
     for (let i = 0; i < r.TABLERO.length; i++) {
         for (let j = 0; j < r.TABLERO[i].length; j++) {
             if (r.TABLERO[i][j] == -1) {
-
+                ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
+                ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
             }
         }
     }
@@ -207,7 +205,7 @@ function ponerEventos(r) {
 
     });
 
-   
+
 }
 
 //Botones nav -----------------------------------------------------------------------
