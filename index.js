@@ -4,9 +4,8 @@
 if (sessionStorage['PARTIDA']) {
     location.href = "juego.html";
     console.log('entra?')
-} else {
-    location.href = 'index.html';
 }
+
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
 
