@@ -1,11 +1,11 @@
 
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
-if(sessionStorage['PARTIDA']){
-    location.href="juego.html";
+if (sessionStorage['PARTIDA']) {
+    location.href = "juego.html";
     console.log('entra?')
-}else{
-    location.href='index.html';
+} else {
+    location.href = 'index.html';
 }
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
@@ -79,13 +79,13 @@ function startGame() {
         document.getElementById("error-message").innerText = "Ambos nombres de jugadores son requeridos.";
     } else {
         document.getElementById("error-message").innerText = "";
-        let res={
-           "jugador1":player1,
-           "jugador2":player2
+        let res = {
+            "jugador1": player1,
+            "jugador2": player2
 
         }
         sessionStorage['JUGADORES'] = JSON.stringify(res);
-        location.href='juego.html';
+        location.href = 'juego.html';
     }
 }
 
