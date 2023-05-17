@@ -1,6 +1,7 @@
+
 const ANCHO = 480;
 const ALTO = 360;
-//PREPARAR CANVAS
+//--------------------PREPARAR CANVAS------------------------------------------------------------------
 function prepararCanvas() {
     let cv = document.querySelector('#cv');
 
@@ -11,7 +12,7 @@ function prepararCanvas() {
         celdas = 4,
         anchocelda = ANCHO / 4,
         altocelda = ALTO / 4;
-    //crear celdas--------------------------------------------------------------------------------
+    //crear celdas---------------------
     ctx.beginPath();
     ctx.strokeStyle = 'blue';
     ctx.lineWidth = 2;
@@ -28,16 +29,17 @@ function prepararCanvas() {
     ctx.stroke();
 
 }
+//--------------------PREPARAR CANVAS------------------------------------------------------------------
 
-//  COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
+// -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
 if (sessionStorage['JUGADORES']) {
     location.ref = "juego.html";
 } else {
     location.href = 'index.html';
 }
-//  COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
-
+// --------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
+//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO --------------------------------------------
 if (!sessionStorage['PARTIDA']) {
     let xhr = new XMLHttpRequest(),
         url = 'api/tablero',
@@ -58,6 +60,9 @@ if (!sessionStorage['PARTIDA']) {
 else {
 
 }
+
+//-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO -------------------------------------------
+
 
 function ponerEventos(r) {
     let numeroAleatorio = Math.round(Math.random());
@@ -93,7 +98,7 @@ function ponerEventos(r) {
             numeros.push(numero);
         }
     }
-    
+
     console.log(numeros);
     let copiatablero = r.TABLERO;
     let jug1 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
@@ -136,7 +141,7 @@ function ponerEventos(r) {
 
     });
 
-tablaNumeros(numeros);
+    tablaNumeros(numeros);
 }
 
 //Botones nav -----------------------------------------------------------------------
@@ -171,45 +176,44 @@ function cerrarDialogo(valor) {
 
 //Actualizar tabla
 
-function actualizarTabla() {
-    let tbody = document.getElementById('datostabla');
-    document.addEventListener('DOMContentLoaded', function() {
-    let fila1 = 0; // Índice de la primera fila
-    let fila2 = 1; // Índice de la segunda fila
-    let columna1 = 0; // Índice de la primera columna
-    let columna2 = 1; // Índice de la segunda columna
-    let columna3 = 2; // Índice de la tercera columna
+    function actualizarTabla() {
+        let tbody = document.getElementById('datostabla');
+        document.addEventListener('DOMContentLoaded', function () {
+            let fila1 = 0; // Índice de la primera fila
+            let fila2 = 1; // Índice de la segunda fila
+            let columna1 = 0; // Índice de la primera columna
+            let columna2 = 1; // Índice de la segunda columna
+            let columna3 = 2; // Índice de la tercera columna
 
-    let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
-    let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+            let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+            let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
 
-    let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
-    let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
+            let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
+            let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
 
-    let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
-    let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
-    
-        document.getElementById('turno1').innerHTML = `${turnojug11}`;
-        document.getElementById('nombre1').innerHTML = `${jug11}`;
-        document.getElementById('punt1').innerHTML = `${punt1}`;
-        document.getElementById('turno2').innerHTML = `${turnojug22}`;
-        document.getElementById('nombre2').innerHTML = `${jug22}`;
-        document.getElementById('punt2').innerHTML = `${punt2}`;
-    });
-}
-actualizarTabla();
+            let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
+            let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
 
-function tablaNumeros()
-{
-    let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
-    console.log(numeros);
-    let nums = document.getElementById('nums')
-    for(let i=0;i<numeros.length;i++)
-    {
-     let div = document.createElement('div');
-     div.innerHTML = numeros[i];
-     nums.appendChild(div);
-
+            document.getElementById('turno1').innerHTML = `${turnojug11}`;
+            document.getElementById('nombre1').innerHTML = `${jug11}`;
+            document.getElementById('punt1').innerHTML = `${punt1}`;
+            document.getElementById('turno2').innerHTML = `${turnojug22}`;
+            document.getElementById('nombre2').innerHTML = `${jug22}`;
+            document.getElementById('punt2').innerHTML = `${punt2}`;
+        });
     }
-}
-tablaNumeros();
+    actualizarTabla();
+
+
+    function tablaNumeros() {
+        let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
+        console.log(numeros);
+        let nums = document.getElementById('nums')
+        for (let i = 0; i < numeros.length; i++) {
+            let div = document.createElement('div');
+            div.innerHTML = numeros[i];
+            nums.appendChild(div);
+
+        }
+    }
+    tablaNumeros();
