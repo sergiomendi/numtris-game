@@ -93,7 +93,7 @@ function ponerEventos(r) {
             numeros.push(numero);
         }
     }
-    tablaNumeros(numeros);
+    
     console.log(numeros);
     let copiatablero = r.TABLERO;
     let jug1 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
@@ -136,7 +136,7 @@ function ponerEventos(r) {
 
     });
 
-    location.href="juego.html";
+tablaNumeros(numeros);
 }
 
 //Botones nav -----------------------------------------------------------------------
