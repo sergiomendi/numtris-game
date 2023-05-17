@@ -78,15 +78,15 @@ function ponerEventos(r){
     let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
                 
 
-    var tbody = document.querySelector('#tablaPuntuaciones tbody');
+    // var tbody = document.querySelector('#tablaPuntuaciones tbody');
 
-    var filajug1 = document.createElement('tr');
-    filajug1.innerHTML = `<td>${turnoJugador1}</td><td>${jug11}</td><td>0</td>`
-    tbody.appendChild(filajug1);
+    // var filajug1 = document.createElement('tr');
+    // filajug1.innerHTML = `<td>${turnoJugador1}</td><td>${jug11}</td><td>0</td>`
+    // tbody.appendChild(filajug1);
 
-    var filajug2 = document.createElement('tr');
-    filajug2.innerHTML = `<td>${turnojugador2}</td><td>${jug22}</td><td>0</td>`
-    tbody.appendChild(filajug2);
+    // var filajug2 = document.createElement('tr');
+    // filajug2.innerHTML = `<td>${turnojugador2}</td><td>${jug22}</td><td>0</td>`
+    // tbody.appendChild(filajug2);
 
     // comprobar si funciona
 
@@ -99,6 +99,7 @@ function ponerEventos(r){
             numeros.push(numero);
         }
     }
+    tablaNumeros(numeros);
     console.log(numeros);
     let copiatablero = r.TABLERO;
     let jug1 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
@@ -141,6 +142,8 @@ function ponerEventos(r){
         console.log(`(fila,col)${fila} ${col}`);
 
     });
+
+    location.href="juego.html";
 }
 
 //Botones nav -----------------------------------------------------------------------
@@ -178,25 +181,43 @@ function cerrarDialogo(valor){
 
 function actualizarTabla(){
     let tbody = document.getElementById('datostabla');
+    document.addEventListener('DOMContentLoaded', function() {
     let fila1 = 0; // Índice de la primera fila
     let fila2 = 1; // Índice de la segunda fila
     let columna1 = 0; // Índice de la primera columna
     let columna2 = 1; // Índice de la segunda columna
     let columna3 = 2; // Índice de la tercera columna
 
-    let jug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).jugador1;
-    let jug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).jugador2;
+    let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+    let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
 
     let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
     let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
 
     let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
     let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
-
-    tbody.rows[fila1].cells[columna1].innerHTML = `${turnojug11}`;
-    tbody.rows[fila1].cells[columna2].innerHTML = `${jug11}`;
-    tbody.rows[fila1].cells[columna3].innerHTML = `${punt1}`;
-    tbody.rows[fila2].cells[columna1].innerHTML = `${turnojug22}`;
-    tbody.rows[fila2].cells[columna2].innerHTML = `${jug22}`;
-    tbody.rows[fila2].cells[columna3].innerHTML = `${punt2}`;
+    
+        document.getElementById('turno1').innerHTML = `${turnojug11}`;
+        document.getElementById('nombre1').innerHTML = `${jug11}`;
+        document.getElementById('punt1').innerHTML = `${punt1}`;
+        document.getElementById('turno2').innerHTML = `${turnojug22}`;
+        document.getElementById('nombre2').innerHTML = `${jug22}`;
+        document.getElementById('punt2').innerHTML = `${punt2}`;
+    });
 }
+actualizarTabla();
+
+function tablaNumeros()
+{
+    let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
+    console.log(numeros);
+    let nums = document.getElementById('nums')
+    for(let i=0;i<numeros.length;i++)
+    {
+     let div = document.createElement('div');
+     div.innerHTML = numeros[i];
+     nums.appendChild(div);
+
+    }
+}
+tablaNumeros();
