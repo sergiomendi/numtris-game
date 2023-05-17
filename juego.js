@@ -52,18 +52,15 @@ if(!sessionStorage['PARTIDA'])
         {   
             r = xhr.response;
             console.log(r);
-            console.log('Respuesta del servidor:', r);
             if(r.RESULTADO == 'OK')
             {
-                
-
                 ponerEventos(r);
             }
         };
         xhr.send();    
 }
 else{
-
+    
 }
 
 function ponerEventos(r){
@@ -163,8 +160,43 @@ let dialogo = document.createElement('dialog'),
     dialogo.showModal();    
 }
 
+function terminarPartida()
+{
+    sessionStorage.removeItem('PARTIDA');
+    sessionStorage.removeItem('JUGADORES');
+
+    location.href='index.html';
+}
+
 function cerrarDialogo(valor){
     console.log(valor);
     document.querySelector('dialog').close();
     document.querySelector('dialog').remove();
+}
+
+//Actualizar tabla
+
+function actualizarTabla(){
+    let tbody = document.getElementById('datostabla');
+    let fila1 = 0; // Índice de la primera fila
+    let fila2 = 1; // Índice de la segunda fila
+    let columna1 = 0; // Índice de la primera columna
+    let columna2 = 1; // Índice de la segunda columna
+    let columna3 = 2; // Índice de la tercera columna
+
+    let jug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).jugador1;
+    let jug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).jugador2;
+
+    let turnojug11 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug1;
+    let turnojug22 = JSON.parse(sessionStorage.getItem('PARTIDA')).turnojug2;
+
+    let punt1 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion1;
+    let punt2 = JSON.parse(sessionStorage.getItem('PARTIDA')).puntuacion2;
+
+    tbody.rows[fila1].cells[columna1].innerHTML = `${turnojug11}`;
+    tbody.rows[fila1].cells[columna2].innerHTML = `${jug11}`;
+    tbody.rows[fila1].cells[columna3].innerHTML = `${punt1}`;
+    tbody.rows[fila2].cells[columna1].innerHTML = `${turnojug22}`;
+    tbody.rows[fila2].cells[columna2].innerHTML = `${jug22}`;
+    tbody.rows[fila2].cells[columna3].innerHTML = `${punt2}`;
 }
