@@ -77,3 +77,22 @@
 .numerosElegibles:hover{
   background-color: yellow;
 }
+
+.dialog{
+  width: 20%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border-color: yellow;
+}
+.dialog h3{
+  text-align: center;
+  margin-top: 0;
+}
+.dialog button{
+  border-radius: 4px;
+  height: 30px;
+  background-color: blanchedalmond;
+  cursor: pointer;
+}

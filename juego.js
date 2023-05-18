@@ -26,6 +26,7 @@ async function tablaNumeros() {
     }
 }
 tablaNumeros();
+
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
 
 function prepararCanvas() {
@@ -126,16 +127,45 @@ function esperarCargaSessionStorage() {
 // ----------------FUNCIÓN PROMESA PARA ESPERAR AL SESSION STORAGE-----------------------------------
 
 function ponerEventos(r) {
-    let celdasClicables=true;
+    let celdasClicables = true;
     let numeroAleatorio = Math.round(Math.random());
     let turnoJugador1 = "espera",
         turnojugador2 = "espera";
     if (numeroAleatorio == 0) {
         turnoJugador1 = "juega";
+        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
+            html = '';
+        html += '<h3>¡Es el turno de ';
+        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+        html += '!</h3>';
+        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
+
+        dialog.innerHTML = html;
+        // Aplicar el desenfoque al fondo
+        document.body.style.filter = 'blur(4px)';
+        document.body.appendChild(dialog);
+        dialog.classList.add('dialog');
+        dialog.showModal();
+
     } else {
         turnojugador2 = "juega";
+        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
+            html = '';
+        html += '<h3>¡Es el turno de ';
+        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+        html += '!</h3>';
+        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
+
+        dialog.innerHTML = html;
+        // Aplicar el desenfoque al fondo
+        document.body.style.filter = 'blur(4px)';
+        document.body.appendChild(dialog);
+        dialog.classList.add('dialog');
+        dialog.showModal();
+
     }
     console.log(numeroAleatorio);
+
     let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
     let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
 
@@ -192,15 +222,22 @@ function ponerEventos(r) {
     }
 
     cv.addEventListener('click', function (evt) {//nos interesa offset x y off set y
+
         let x = evt.offsetX;
         let y = evt.offsetY,
             altocelda = ALTO / 4,
             anchocelda = ANCHO / 4,
             fila, col;
+
         //console.log(`(x,y)${x} ${y}`);
+
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
 
+        // Verifica si la casilla actual está en el array de casillas bloqueadas
+        if (r.TABLERO[fila][col] == -1) {
+            return; // Salir si la casilla está bloqueada
+        }
         console.log(`(fila,col)${fila} ${col}`);
 
     });
@@ -221,7 +258,9 @@ function clickAyuda() {
     html += '<button onclick="cerrarDialogo(0);">Cerrar</button>';
 
     dialogo.innerHTML = html;
+    document.body.style.filter = 'blur(4px)';
     document.body.appendChild(dialogo);
+    dialogo.classList.add('dialog');
     dialogo.showModal();
 }
 
@@ -236,5 +275,6 @@ function cerrarDialogo(valor) {
     console.log(valor);
     document.querySelector('dialog').close();
     document.querySelector('dialog').remove();
+    // Restaurar el fondo sin desenfoque
+    document.body.style.filter = 'none';
 }
-
