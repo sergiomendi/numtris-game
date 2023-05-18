@@ -73,7 +73,9 @@
   cursor: pointer;
 
 }
-
+#juego{
+  cursor: pointer;
+}
 .numerosElegibles:hover{
   background-color: yellow;
 }
