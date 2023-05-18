@@ -79,7 +79,15 @@
 .numerosElegibles:hover{
   background-color: yellow;
 }
+/* Estilo para destacar el número seleccionado */
+.numerosElegibles.seleccionado {
+  background-color: yellow;
+}
 
+/* Estilo para deshabilitar los números vacíos */
+.numerosElegibles.vacio {
+  cursor: not-allowed;
+}
 .dialog{
   width: 20%;
   height: fit-content;

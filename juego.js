@@ -1,4 +1,4 @@
-
+let numeroSeleccionado = null;
 const ANCHO = 480;
 const ALTO = 360;
 
@@ -22,7 +22,36 @@ async function tablaNumeros() {
         div.classList.add("numerosElegibles");
         div.innerHTML = numeros[i];
         nums.appendChild(div);
+        div.addEventListener('mouseover', function () {
+            if (!div.classList.contains('vacio')) {
+                div.style.cursor = 'pointer';
+                div.classList.add('destacado');
+            } else {
+                div.style.cursor = 'not-allowed';
+            }
+        });
 
+        div.addEventListener('mouseout', function () {
+            div.style.cursor = 'auto';
+            div.classList.remove('destacado');
+        });
+
+        div.addEventListener('click', function () {
+            let seleccionados = document.getElementsByClassName('seleccionado');
+            if (!div.classList.contains('vacio')) {
+                // Limpiar selección previa
+                let seleccionados = document.getElementsByClassName('seleccionado');
+                for (let j = 0; j < seleccionados.length; j++) {
+                    seleccionados[j].classList.remove('seleccionado');
+                }
+
+                // Seleccionar el número actual
+                div.classList.add('seleccionado');
+                // Guardar el número seleccionado
+                numeroSeleccionado = numeros[i];
+                console.log(numeroSeleccionado);
+            }
+        });
     }
 }
 tablaNumeros();
@@ -45,41 +74,75 @@ function prepararCanvas() {
             console.log(r);
             if (r.RESULTADO == 'OK') {
                 ponerEventos(r);
+                console.log(r);
             }
         };
         xhr.send();
+        let cv = document.querySelector('#cv');
 
+        cv.width = ANCHO;
+        cv.height = ALTO;
+
+        ctx = cv.getContext('2d'),
+            celdas = 4,
+            anchocelda = ANCHO / 4,
+            altocelda = ALTO / 4;
+        //crear celdas---------------------
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 4;
+
+        for (let i = 1; i < celdas; i++) {
+            //verticales
+            ctx.moveTo(i * anchocelda, 0);
+            ctx.lineTo(i * anchocelda, ALTO);
+            //horizontales
+            ctx.moveTo(0, i * altocelda);
+            ctx.lineTo(ANCHO, i * altocelda);
+        }
+
+        ctx.stroke();
 
     }
     else {
+        let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
+        console.log(JSON.parse(sessionStorage.getItem('PARTIDA')).tablero);
+        let cv = document.querySelector('#cv');
 
+        cv.width = ANCHO;
+        cv.height = ALTO;
+
+        ctx = cv.getContext('2d'),
+            celdas = 4,
+            anchocelda = ANCHO / 4,
+            altocelda = ALTO / 4;
+        //crear celdas---------------------
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 4;
+
+        for (let i = 1; i < celdas; i++) {
+            //verticales
+            ctx.moveTo(i * anchocelda, 0);
+            ctx.lineTo(i * anchocelda, ALTO);
+            //horizontales
+            ctx.moveTo(0, i * altocelda);
+            ctx.lineTo(ANCHO, i * altocelda);
+        }
+
+        ctx.stroke();
+        for (let i = 0; i < TABLERO.length; i++) {
+            for (let j = 0; j < TABLERO[i].length; j++) {
+                if (TABLERO[i][j] == -1) {
+                    ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
+                    ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
+                }
+            }
+        }
     }
 
     //-----------------CONSEGUIMOS INFORMACIÓN DEL TABLERO --------------
-    let cv = document.querySelector('#cv');
 
-    cv.width = ANCHO;
-    cv.height = ALTO;
-
-    ctx = cv.getContext('2d'),
-        celdas = 4,
-        anchocelda = ANCHO / 4,
-        altocelda = ALTO / 4;
-    //crear celdas---------------------
-    ctx.beginPath();
-    ctx.strokeStyle = 'blue';
-    ctx.lineWidth = 2;
-
-    for (let i = 1; i < celdas; i++) {
-        //verticales
-        ctx.moveTo(i * anchocelda, 0);
-        ctx.lineTo(i * anchocelda, ALTO);
-        //horizontales
-        ctx.moveTo(0, i * altocelda);
-        ctx.lineTo(ANCHO, i * altocelda);
-    }
-
-    ctx.stroke();
 
 }
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
@@ -221,26 +284,33 @@ function ponerEventos(r) {
         }
     }
 
-    cv.addEventListener('click', function (evt) {//nos interesa offset x y off set y
-
+    cv.addEventListener('click', function (evt) {
         let x = evt.offsetX;
-        let y = evt.offsetY,
-            altocelda = ALTO / 4,
-            anchocelda = ANCHO / 4,
-            fila, col;
-
-        //console.log(`(x,y)${x} ${y}`);
+        let y = evt.offsetY;
+        let altocelda = ALTO / 4;
+        let anchocelda = ANCHO / 4;
+        let fila, col;
 
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
 
-        // Verifica si la casilla actual está en el array de casillas bloqueadas
         if (r.TABLERO[fila][col] == -1) {
-            return; // Salir si la casilla está bloqueada
+            return;
         }
-        console.log(`(fila,col)${fila} ${col}`);
 
+        console.log(`(fila, col) ${fila} ${col}`);
+        if (numeroSeleccionado != null) {
+            // Pintar el número en la casilla correspondiente del canvas
+            ctx.font = 'bold 30px Arial';
+            ctx.fillStyle = 'blue';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
+            // Bloquear la casilla
+            r.TABLERO[fila][col] = -1;
+        }
     });
+
 
 
 }
