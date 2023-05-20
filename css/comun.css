@@ -1,164 +1,178 @@
-body > header > section 
-	{
-		margin: auto;
-		align-items: center;
-		display: flex;
-		justify-content: center;
-		background-color:#2D8FA1;
-		border: 0.25em solid #000;
-	}
+body>header>section {
+	margin: auto;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	background-color: #2D8FA1;
+	border: 0.25em solid #000;
+}
 
-	#titysub
-	{
+#titysub {
 
-		text-align: center;
-		padding-left: 10px;
-	}
+	text-align: center;
+	padding-left: 10px;
+}
 
-	body > footer
-	{
-		border-top: 0.25em solid #000;
-		border-bottom: 0.25em solid #000;
-		display:flex;
-		align-items: center;
-		justify-content: space-evenly;	
-		text-align: center;	
-		background-color: #CDCDCD;
-  		bottom: 0;	
-  		font-family: 'Shantell Sans', cursive;
-  		margin-top: 1em;
-	}
+body>footer {
+	border-top: 0.25em solid #000;
+	border-bottom: 0.25em solid #000;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	text-align: center;
+	background-color: #CDCDCD;
+	font-family: 'Shantell Sans', cursive;
+	/* margin-top: 1em; */
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 9999;
+}
 
 
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
+
 	/*empieza el menu*/
-	body>header>div > nav > label {
+	body>header>div>nav>label {
 		display: none;
-		width: 30px;	
+		width: 30px;
 		height: 30px;
 		padding: 10px;
 		cursor: pointer;
-		justify-content: center;	
+		justify-content: center;
 
 	}
 
 
-	body>header>div>nav>input{
+	body>header>div>nav>input {
 		display: none;
 	}
 
-	body>header>div > nav {
+	body>header>div>nav {
 		background-color: #EDAA72;
-		border-bottom: 0.25em solid #000;	
+		border-bottom: 0.25em solid #000;
 		border-left: 0.25em solid #000;
 		border-right: 0.25em solid #000;
 	}
 
-	body>header>div > nav > ul
-	{
+	body>header>div>nav>ul {
 		font-size: 1em;
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		display: flex;
-	/*	justify-content: center;*/
+		/*	justify-content: center;*/
 
 	}
-	body>header>div > nav > ul > li
-	{
+
+	body>header>div>nav>ul>li {
 		border-right: 4px solid #000;
 		text-align: center;
 		flex-grow: 1;
 	}
-	body>header>div > nav > ul > li > a{
+
+	body>header>div>nav>ul>li>a {
 		display: block;
 		padding: 15px;
-		text-decoration: none;   /*quita la barra baja del menu*/
+		text-decoration: none;
+		/*quita la barra baja del menu*/
 	}
-	body>header>div > nav > ul > li > a:hover{
+
+	body>header>div>nav>ul>li>a:hover {
 		color: white;
 		background: rgba(0, 0, 0, 0.3);
 	}
-	body>header>div > nav > ul > li > a:active{
+
+	body>header>div>nav>ul>li>a:active {
 		color: black;
 	}
+
 	/*acaba el menu*/
 }
 
 
 
-@media  (max-width: 1024px ) and (min-width: 601px ){
+@media (max-width: 1024px) and (min-width: 601px) {
+
 	/*empieza el menu*/
-	body>header>div > nav > label {
+	body>header>div>nav>label {
 		display: none;
-		width: 30px;	
+		width: 30px;
 		height: 30px;
 		padding: 10px;
 		cursor: pointer;
-		justify-content: center;	
+		justify-content: center;
 
 	}
 
-	.navti{
-		display:none;
-	}
-	body>header>div>nav>input{
+	.navti {
 		display: none;
 	}
 
-	body>header>div > nav {
+	body>header>div>nav>input {
+		display: none;
+	}
+
+	body>header>div>nav {
 		background-color: #EDAA72;
-		border-bottom: 0.25em solid #000;	
+		border-bottom: 0.25em solid #000;
 		border-left: 0.25em solid #000;
 		border-right: 0.25em solid #000;
 	}
 
-	body>header>div > nav > ul
-	{
+	body>header>div>nav>ul {
 		font-size: 1em;
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		display: flex;
-	/*	justify-content: center;*/
+		/*	justify-content: center;*/
 
 	}
-	body>header>div > nav > ul > li
-	{
+
+	body>header>div>nav>ul>li {
 		border-right: 4px solid #000;
 		text-align: center;
 		flex-grow: 1;
 	}
-	body>header>div > nav > ul > li > a{
+
+	body>header>div>nav>ul>li>a {
 		display: block;
 		padding: 15px;
-		text-decoration: none;   /*quita la barra baja del menu*/
+		text-decoration: none;
+		/*quita la barra baja del menu*/
 	}
-	body>header>div > nav > ul > li > a:hover{
+
+	body>header>div>nav>ul>li>a:hover {
 		color: white;
 		background: rgba(0, 0, 0, 0.3);
 	}
-	body>header>div > nav > ul > li > a:active{
+
+	body>header>div>nav>ul>li>a:active {
 		color: black;
 	}
 }
 
-@media (max-width: 600.9px){
-	body > header > div > nav{
+@media (max-width: 600.9px) {
+	body>header>div>nav {
 		background-color: #EDAA72;
 	}
-	body>header >div>nav>ul{
-		display:none;		
-	}
-	input:checked  ~ ul{
-  		display:block;
-  		padding: 0px;
-	}
-	body>header>div>nav>input{
+
+	body>header>div>nav>ul {
 		display: none;
 	}
 
-	body>header>div>nav>label{
+	input:checked~ul {
+		display: block;
+		padding: 0px;
+	}
+
+	body>header>div>nav>input {
+		display: none;
+	}
+
+	body>header>div>nav>label {
 		box-sizing: border-box;
 		display: inline-block;
 		border: 1px solid black;
@@ -171,16 +185,18 @@ body > header > section
 		user-select: none;
 		cursor: pointer;
 	}
-	body>header>div>nav>ul>li:hover{
+
+	body>header>div>nav>ul>li:hover {
 		color: white;
 		background: rgba(0, 0, 0, 0.3);
 	}
-	body>header>div > nav > ul > li > a:active{
+
+	body>header>div>nav>ul>li>a:active {
 		color: black;
 	}
 
-	body>header>div>nav>ul>li{
-		display: block;	
+	body>header>div>nav>ul>li {
+		display: block;
 		background: #EDAA72;
 		margin: 0;
 		padding: 10px;
