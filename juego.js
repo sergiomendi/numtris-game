@@ -20,13 +20,15 @@ async function tablaNumeros() {
     for (let i = 0; i < numeros.length; i++) {
         let div = document.createElement('button');
         div.classList.add("numerosElegibles");
-        div.id="numerosElegibles";
+        div.id = "numerosElegibles";
         div.innerHTML = numeros[i];
         nums.appendChild(div);
+
         div.addEventListener('mouseover', function () {
             if (!div.classList.contains('vacio')) {
                 div.style.cursor = 'pointer';
                 div.classList.add('destacado');
+
             } else {
                 div.style.cursor = 'not-allowed';
             }
@@ -54,6 +56,7 @@ async function tablaNumeros() {
             }
         });
     }
+
 }
 tablaNumeros();
 
@@ -79,7 +82,7 @@ function prepararCanvas() {
             }
         };
         xhr.send();
-        
+
 
         cv.width = ANCHO;
         cv.height = ALTO;
@@ -108,7 +111,7 @@ function prepararCanvas() {
     else {
         let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
         console.log(JSON.parse(sessionStorage.getItem('PARTIDA')).tablero);
-        
+
 
         cv.width = ANCHO;
         cv.height = ALTO;
@@ -194,7 +197,7 @@ function esperarCargaSessionStorage() {
 function ponerEventos(r) {
     let celdasClicables = true;
     let numeroAleatorio = Math.round(Math.random());
-   
+
     let turnoJugador1 = "espera",
         turnojugador2 = "espera";
     if (numeroAleatorio == 0) {
@@ -293,24 +296,29 @@ function ponerEventos(r) {
         let altocelda = ALTO / 4;
         let anchocelda = ANCHO / 4;
         let fila, col;
-        let PARTIDA=JSON.parse(sessionStorage.getItem('PARTIDA'));
-        let tablero=PARTIDA.tablero;
+        let PARTIDA = JSON.parse(sessionStorage.getItem('PARTIDA'));
+        let tablero = PARTIDA.tablero;
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
-        
+
 
         if (r.TABLERO[fila][col] == -1) {
             return;
         }
 
         console.log(`(fila, col) ${fila} ${col}`);
+
         if (numeroSeleccionado != null) {
             var botonesDerecha = document.getElementsByClassName('seleccionado');
 
             // Itera sobre los elementos y vacía su contenido
             for (var i = 0; i < botonesDerecha.length; i++) {
-             botonesDerecha[i].innerHTML = "";
+                botonesDerecha[i].innerHTML = "";
+                botonesDerecha[i].classList.remove('destacado');
+                botonesDerecha[i].classList.add('vacio');
+
             }
+
             // cv.classList.remove('no-click');
             // Pintar el número en la casilla correspondiente del canvas
             ctx.font = 'bold 30px Arial';
@@ -319,34 +327,42 @@ function ponerEventos(r) {
             ctx.textBaseline = 'middle';
             ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
             // Bloquear la casilla
-            // r.TABLERO[fila][col] = -1;
-            tablero[fila][col]=numeroSeleccionado;
-            numeroSeleccionado=null;
+            r.TABLERO[fila][col] = -1;
+            tablero[fila][col] = numeroSeleccionado;
+            numeroSeleccionado = null;
         }
     });
 
-    
 
+    cv.addEventListener('mouseover', function (evt) {
+        
+        // if (r.TABLERO[fila][col] !==0) {
+        //     this.style.cursor = 'not-allowed';
+
+        // } else {
+            
+        // }
+    });
 
 
 }
-function seguirPartida(){
+function seguirPartida() {
     let cv = document.querySelector('#cv');
-    
+
     cv.addEventListener('click', function (evt) {
         let x = evt.offsetX;
         let y = evt.offsetY;
         let altocelda = ALTO / 4;
         let anchocelda = ANCHO / 4;
         let fila, col;
-        let TABLERO=JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
+        let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
         var botonesDerecha = document.getElementsByClassName('seleccionado');
 
         // Itera sobre los elementos y vacía su contenido
         for (var i = 0; i < botonesDerecha.length; i++) {
-         botonesDerecha[i].innerHTML = "";
+            botonesDerecha[i].innerHTML = "";
         }
 
         if (TABLERO[fila][col] == -1) {
@@ -355,7 +371,7 @@ function seguirPartida(){
 
         console.log(`(fila, col) ${fila} ${col}`);
         if (numeroSeleccionado != null) {
-            let div=document.getElementById("numerosElegibles");
+            let div = document.getElementById("numerosElegibles");
             div.innerHTML = '';
             // cv.classList.remove('no-click');
             // Pintar el número en la casilla correspondiente del canvas
@@ -367,8 +383,8 @@ function seguirPartida(){
             // Bloquear la casilla
             TABLERO[fila][col] = numeroSeleccionado;
             // r.TABLERO[fila][col] = -1;
-          
-            numeroSeleccionado=null;
+
+            numeroSeleccionado = null;
         }
     });
 }

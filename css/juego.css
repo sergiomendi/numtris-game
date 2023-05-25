@@ -76,9 +76,7 @@
 #juego{
   cursor: pointer;
 }
-.numerosElegibles:hover{
-  background-color: yellow;
-}
+
 /* Estilo para destacar el número seleccionado */
 .numerosElegibles.seleccionado {
   background-color: yellow;
@@ -86,13 +84,8 @@
 
 /* Estilo para deshabilitar los números vacíos */
 .numerosElegibles.vacio {
+  background-color: black;
   cursor: not-allowed;
-  width: 50px;
-  height:50px;
-  border-radius: 5px;
-  margin-right: 10px;
-  font-size: 30px;
-  cursor: pointer;
 }
 .dialog{
   width: 20%;
@@ -117,4 +110,8 @@
 .no-click {
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.destacado{
+  background-color: yellow;
 }
