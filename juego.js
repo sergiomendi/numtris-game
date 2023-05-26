@@ -61,7 +61,6 @@ async function tablaNumeros() {
 
 }
 tablaNumeros();
-
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
 
 function prepararCanvas() {
@@ -84,79 +83,33 @@ function prepararCanvas() {
             }
         };
         xhr.send();
-
-
-        cv.width = ANCHO;
-        cv.height = ALTO;
-
-        ctx = cv.getContext('2d'),
-            celdas = 4,
-            anchocelda = ANCHO / 4,
-            altocelda = ALTO / 4;
-        //crear celdas---------------------
-        ctx.beginPath();
-        ctx.strokeStyle = 'blue';
-        ctx.lineWidth = 4;
-
-        for (let i = 1; i < celdas; i++) {
-            //verticales
-            ctx.moveTo(i * anchocelda, 0);
-            ctx.lineTo(i * anchocelda, ALTO);
-            //horizontales
-            ctx.moveTo(0, i * altocelda);
-            ctx.lineTo(ANCHO, i * altocelda);
-        }
-
-        ctx.stroke();
+        pintarCanvas();
 
     }
     else {
         let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
         console.log(JSON.parse(sessionStorage.getItem('PARTIDA')).tablero);
-
-
-        cv.width = ANCHO;
-        cv.height = ALTO;
-
-        ctx = cv.getContext('2d'),
-            celdas = 4,
-            anchocelda = ANCHO / 4,
-            altocelda = ALTO / 4;
-        //crear celdas---------------------
-        ctx.beginPath();
-        ctx.strokeStyle = 'blue';
-        ctx.lineWidth = 4;
-
-        for (let i = 1; i < celdas; i++) {
-            //verticales
-            ctx.moveTo(i * anchocelda, 0);
-            ctx.lineTo(i * anchocelda, ALTO);
-            //horizontales
-            ctx.moveTo(0, i * altocelda);
-            ctx.lineTo(ANCHO, i * altocelda);
-        }
-
-        ctx.stroke();
+        pintarCanvas();
         for (let i = 0; i < TABLERO.length; i++) {
             for (let j = 0; j < TABLERO[i].length; j++) {
                 if (TABLERO[i][j] == -1) {
                     ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
                     ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
                 }
-                if(TABLERO[i][j] !== -1 && TABLERO[i][j] !== 0){
+                if (TABLERO[i][j] !== -1 && TABLERO[i][j] !== 0) {
                     //Si es distinto de ambos, rellenar el hueco
                     console.log("entra")
 
-                      // Recorrer la matriz y colocar los números en el canvas
-                    
-                          let numero = TABLERO[i][j];
-                        
-                            ctx.font = 'bold 30px Arial';
-                            ctx.fillStyle = 'blue';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
-                          
+                    // Recorrer la matriz y colocar los números en el canvas
+
+                    let numero = TABLERO[i][j];
+
+                    ctx.font = 'bold 30px Arial';
+                    ctx.fillStyle = 'blue';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
+
                 }
             }
         }
@@ -194,7 +147,7 @@ async function actualizarTabla() {
     document.getElementById('turno2').innerHTML = `${turnojug22}`;
     document.getElementById('nombre2').innerHTML = `${jug22}`;
     document.getElementById('punt2').innerHTML = `${punt2}`;
-    // Tu código aquí
+
 }
 actualizarTabla();
 
@@ -308,7 +261,7 @@ function ponerEventos(r) {
     }
 
     cv.addEventListener('click', function (evt) {
-        
+
 
         let x = evt.offsetX;
         let y = evt.offsetY;
@@ -339,7 +292,7 @@ function ponerEventos(r) {
         // };
         // xhr.send(tablero2);
 
-        
+
         if (r.TABLERO[fila][col] == -1) {
             return;
         }
@@ -348,20 +301,13 @@ function ponerEventos(r) {
 
         if (numeroSeleccionado != null) {
             var botonesDerecha = document.getElementsByClassName('seleccionado');
-            // for(let i = 0; i<3;i++){
-            //     if (botonesDerecha[i].classList.contains(`${i}`)) {
-            //         console.log(botonesDerecha[i])
-            //     }
-            // }
             // Itera sobre los elementos y vacía su contenido
             for (var i = 0; i < botonesDerecha.length; i++) {
-                botonesDerecha[i].innerHTML = "";
+                botonesDerecha[i].innerHTML = "&nbsp";
                 botonesDerecha[i].classList.remove('destacado');
                 botonesDerecha[i].classList.add('vacio');
 
             }
-
-            // cv.classList.remove('no-click');
             // Pintar el número en la casilla correspondiente del canvas
             ctx.font = 'bold 30px Arial';
             ctx.fillStyle = 'blue';
@@ -369,10 +315,19 @@ function ponerEventos(r) {
             ctx.textBaseline = 'middle';
             ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
             // Bloquear la casilla
-            //r.TABLERO[fila][col] = -1;
             tablero[fila][col] = numeroSeleccionado;
             //guardo en el storage
             PARTIDA.tablero = tablero;
+            if (PARTIDA.turnojug1 === "espera") {
+                PARTIDA.turnojug1 = "juega";
+                PARTIDA.turnojug2 = "espera";
+
+            } else {
+                PARTIDA.turnojug1 = "espera";
+                PARTIDA.turnojug2 = "juega";
+            }
+            actualizarTabla();
+
             sessionStorage.setItem('PARTIDA', JSON.stringify(PARTIDA));
             numeroSeleccionado = null;
         }
@@ -380,12 +335,12 @@ function ponerEventos(r) {
 
 
     cv.addEventListener('mouseover', function (evt) {
-        
+
         // if (r.TABLERO[fila][col] !==0) {
         //     this.style.cursor = 'not-allowed';
 
         // } else {
-            
+
         // }
     });
 
@@ -393,6 +348,38 @@ function ponerEventos(r) {
 }
 function seguirPartida() {
     let cv = document.querySelector('#cv');
+    let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
+    if (partida.turnojug1==="juega") {
+        turnoJugador1 = "juega";
+        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
+            html = '';
+        html += '<h3>¡Es el turno de ';
+        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
+        html += '!</h3>';
+        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
+
+        dialog.innerHTML = html;
+        // Aplicar el desenfoque al fondo
+        document.body.style.filter = 'blur(4px)';
+        document.body.appendChild(dialog);
+        dialog.classList.add('dialog');
+        dialog.showModal();
+    }else{
+        turnoJugador2 = "juega";
+        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
+            html = '';
+        html += '<h3>¡Es el turno de ';
+        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
+        html += '!</h3>';
+        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
+
+        dialog.innerHTML = html;
+        // Aplicar el desenfoque al fondo
+        document.body.style.filter = 'blur(4px)';
+        document.body.appendChild(dialog);
+        dialog.classList.add('dialog');
+        dialog.showModal();
+    }
 
     cv.addEventListener('click', function (evt) {
         let x = evt.offsetX;
@@ -406,11 +393,11 @@ function seguirPartida() {
         col = Math.floor(x / anchocelda);
         var botonesDerecha = document.getElementsByClassName('seleccionado');
         console.log(TABLERO)
-        // Itera sobre los elementos y vacía su contenido
-        for (var i = 0; i < botonesDerecha.length; i++) {
-            botonesDerecha[i].innerHTML = "";
+        // // Itera sobre los elementos y vacía su contenido
+        // for (var i = 0; i < botonesDerecha.length; i++) {
+        //     botonesDerecha[i].innerHTML = "&nbsp";
 
-        }
+        // }
 
         if (TABLERO[fila][col] == -1) {
             return;
@@ -419,7 +406,14 @@ function seguirPartida() {
         console.log(`(fila, col) ${fila} ${col}`);
         if (numeroSeleccionado != null) {
             let div = document.getElementById("numerosElegibles");
-            div.innerHTML = '';
+            var botonesDerecha = document.getElementsByClassName('seleccionado');
+            // Itera sobre los elementos y vacía su contenido
+            for (var i = 0; i < botonesDerecha.length; i++) {
+                botonesDerecha[i].innerHTML = "&nbsp";
+                botonesDerecha[i].classList.remove('destacado');
+                botonesDerecha[i].classList.add('vacio');
+
+            }
             // cv.classList.remove('no-click');
             // Pintar el número en la casilla correspondiente del canvas
             ctx.font = 'bold 30px Arial';
@@ -430,6 +424,16 @@ function seguirPartida() {
             // GUARDARLO EN EL SESSIONSTORAGE
             TABLERO[fila][col] = numeroSeleccionado;
             partida.tablero = TABLERO;
+            if (partida.turnojug1 === "espera") {
+                partida.turnojug1 = "juega";
+                partida.turnojug2 = "espera";
+
+            } else {
+                partida.turnojug1 = "espera";
+                partida.turnojug2 = "juega";
+            }
+            actualizarTabla();
+
             sessionStorage.setItem('PARTIDA', JSON.stringify(partida));
             // r.TABLERO[fila][col] = -1;
             console.log(div)
@@ -471,3 +475,28 @@ function cerrarDialogo(valor) {
     document.body.style.filter = 'none';
 }
 
+
+function pintarCanvas() {
+    cv.width = ANCHO;
+    cv.height = ALTO;
+
+    ctx = cv.getContext('2d'),
+        celdas = 4,
+        anchocelda = ANCHO / 4,
+        altocelda = ALTO / 4;
+    //crear celdas---------------------
+    ctx.beginPath();
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 4;
+
+    for (let i = 1; i < celdas; i++) {
+        //verticales
+        ctx.moveTo(i * anchocelda, 0);
+        ctx.lineTo(i * anchocelda, ALTO);
+        //horizontales
+        ctx.moveTo(0, i * altocelda);
+        ctx.lineTo(ANCHO, i * altocelda);
+    }
+
+    ctx.stroke();
+}

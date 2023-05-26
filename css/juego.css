@@ -65,8 +65,8 @@
   margin-top:20%;
 }
 .numerosElegibles{
-  width: 50px;
-  height:50px;
+  width: 80px;
+  height:80px;
   border-radius: 5px;
   margin-right: 10px;
   font-size: 30px;
@@ -84,7 +84,7 @@
 
 /* Estilo para deshabilitar los números vacíos */
 .numerosElegibles.vacio {
-  background-color: black;
+  background-color: white;
   cursor: not-allowed;
 }
 .dialog{
