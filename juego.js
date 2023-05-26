@@ -20,6 +20,8 @@ async function tablaNumeros() {
     for (let i = 0; i < numeros.length; i++) {
         let div = document.createElement('button');
         div.classList.add("numerosElegibles");
+        div.classList.add(`${i}`)
+        //div.classList.add(`${i}`);
         div.id = "numerosElegibles";
         div.innerHTML = numeros[i];
         nums.appendChild(div);
@@ -140,6 +142,21 @@ function prepararCanvas() {
                 if (TABLERO[i][j] == -1) {
                     ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
                     ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
+                }
+                if(TABLERO[i][j] !== -1 && TABLERO[i][j] !== 0){
+                    //Si es distinto de ambos, rellenar el hueco
+                    console.log("entra")
+
+                      // Recorrer la matriz y colocar los números en el canvas
+                    
+                          let numero = TABLERO[i][j];
+                        
+                            ctx.font = 'bold 30px Arial';
+                            ctx.fillStyle = 'blue';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
+                          
                 }
             }
         }
@@ -291,6 +308,8 @@ function ponerEventos(r) {
     }
 
     cv.addEventListener('click', function (evt) {
+        
+
         let x = evt.offsetX;
         let y = evt.offsetY;
         let altocelda = ALTO / 4;
@@ -301,7 +320,26 @@ function ponerEventos(r) {
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
 
+        // let tablero2 = JSON.stringify(tablero);
+        // console.log(tablero)
+        // console.log(tablero2)
+        // let xhr = new XMLHttpRequest(),
+        //     url = 'api/comprobar',
+        //     re;
 
+        // xhr.open('POST', url, true);
+        // xhr.responseType = 'text';
+        // console.log(xhr.status)
+        // xhr.onload = function () {
+        //     re = xhr.response;
+        //     console.log(re);
+        //     if (re.RESULTADO == 'OK') {
+        //         console.log(re);
+        //     }
+        // };
+        // xhr.send(tablero2);
+
+        
         if (r.TABLERO[fila][col] == -1) {
             return;
         }
@@ -310,7 +348,11 @@ function ponerEventos(r) {
 
         if (numeroSeleccionado != null) {
             var botonesDerecha = document.getElementsByClassName('seleccionado');
-
+            // for(let i = 0; i<3;i++){
+            //     if (botonesDerecha[i].classList.contains(`${i}`)) {
+            //         console.log(botonesDerecha[i])
+            //     }
+            // }
             // Itera sobre los elementos y vacía su contenido
             for (var i = 0; i < botonesDerecha.length; i++) {
                 botonesDerecha[i].innerHTML = "";
@@ -327,8 +369,11 @@ function ponerEventos(r) {
             ctx.textBaseline = 'middle';
             ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
             // Bloquear la casilla
-            r.TABLERO[fila][col] = -1;
+            //r.TABLERO[fila][col] = -1;
             tablero[fila][col] = numeroSeleccionado;
+            //guardo en el storage
+            PARTIDA.tablero = tablero;
+            sessionStorage.setItem('PARTIDA', JSON.stringify(PARTIDA));
             numeroSeleccionado = null;
         }
     });
@@ -355,14 +400,16 @@ function seguirPartida() {
         let altocelda = ALTO / 4;
         let anchocelda = ANCHO / 4;
         let fila, col;
+        let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
         let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
         var botonesDerecha = document.getElementsByClassName('seleccionado');
-
+        console.log(TABLERO)
         // Itera sobre los elementos y vacía su contenido
         for (var i = 0; i < botonesDerecha.length; i++) {
             botonesDerecha[i].innerHTML = "";
+
         }
 
         if (TABLERO[fila][col] == -1) {
@@ -380,10 +427,12 @@ function seguirPartida() {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
-            // Bloquear la casilla
+            // GUARDARLO EN EL SESSIONSTORAGE
             TABLERO[fila][col] = numeroSeleccionado;
+            partida.tablero = TABLERO;
+            sessionStorage.setItem('PARTIDA', JSON.stringify(partida));
             // r.TABLERO[fila][col] = -1;
-
+            console.log(div)
             numeroSeleccionado = null;
         }
     });
