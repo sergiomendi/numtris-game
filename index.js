@@ -2,7 +2,7 @@
 //  COMPROBACIÓN DE SI ESTÁ JUGANDO (FALTA TERMINAR)------------------------------------------------
 
 if (sessionStorage['PARTIDA']) {
-    location.href = "juego copy.html";
+    location.href = "juego.html";
     console.log('entra?')
 }
 
@@ -84,7 +84,7 @@ function startGame() {
 
         }
         sessionStorage['JUGADORES'] = JSON.stringify(res);
-        location.href = 'juego copy.html';
+        location.href = 'juego.html';
     }
 }
 
