@@ -446,8 +446,8 @@ function seguirPartida() {
                 cv.style.cursor = 'not-allowed';
             } else {
                 cv.style.cursor = 'pointer';
-                ctx.fillStyle = 'yellow'; // Color de fondo de la casilla resaltada
-                ctx.fillRect(col * anchocelda, fila * altocelda, anchocelda, altocelda);
+                // ctx.fillStyle = 'yellow'; // Color de fondo de la casilla resaltada
+                // ctx.fillRect(col * anchocelda, fila * altocelda, anchocelda, altocelda);
             }
         }
     });
