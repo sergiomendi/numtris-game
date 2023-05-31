@@ -270,12 +270,15 @@ function ponerEventos(r) {
         let tablero = PARTIDA.tablero;
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
-        console.log(tablero);
+        
+
         // console.log(r.TABLERO[fila][col]);
 
         if (tablero[fila][col] !== 0 || numeroSeleccionado === null) {
             return;
         }
+        tablero[fila][col]=numeroSeleccionado;
+        console.log(tablero);
         comprobacion(tablero, evt);
 
 
