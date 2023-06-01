@@ -1,6 +1,7 @@
 let numeroSeleccionado = null;
 const ANCHO = 480;
 const ALTO = 360;
+let suma = 0;
 
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
@@ -17,6 +18,13 @@ async function tablaNumeros() {
     let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
     console.log(numeros);
     let nums = document.getElementById('nums');
+
+    // Verificar si el div está vacío
+    if (nums.innerHTML !== '') {
+        // Limpiar los botones existentes
+        nums.innerHTML = '';
+    }
+
     for (let i = 0; i < numeros.length; i++) {
         let div = document.createElement('button');
         div.classList.add("numerosElegibles");
@@ -270,15 +278,16 @@ function ponerEventos(r) {
         let tablero = PARTIDA.tablero;
         fila = Math.floor(y / altocelda);
         col = Math.floor(x / anchocelda);
-        
+
 
         // console.log(r.TABLERO[fila][col]);
 
         if (tablero[fila][col] !== 0 || numeroSeleccionado === null) {
             return;
         }
-        tablero[fila][col]=numeroSeleccionado;
+        tablero[fila][col] = numeroSeleccionado;
         console.log(tablero);
+
         comprobacion(tablero, evt);
 
 
@@ -309,6 +318,7 @@ function ponerEventos(r) {
         cv.style.cursor = 'auto';
 
     });
+
 
 }
 
@@ -342,7 +352,6 @@ function comprobacion(tablero, evt) {
                     botonesDerecha[i].innerHTML = "&nbsp";
                     botonesDerecha[i].classList.remove('destacado');
                     botonesDerecha[i].classList.add('vacio');
-
                 }
                 // Pintar el número en la casilla correspondiente del canvas
                 ctx.font = 'bold 30px Arial';
@@ -366,6 +375,69 @@ function comprobacion(tablero, evt) {
 
                 sessionStorage.setItem('PARTIDA', JSON.stringify(PARTIDA));
                 numeroSeleccionado = null;
+
+                if (re.JUGABLES === 0) {
+                    let ganador;
+                    if (PARTIDA.puntuacion1 > PARTIDA.puntuacion2) {
+                        ganador = PARTIDA.jugador1;
+                    } else {
+                        ganador = PARTIDA.jugador2;
+                    }
+
+                    let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
+                        html = '';
+                    html += '<h2>¡GAME OVER!</h2> ';
+                    html += '<h3>HA GANADO: ';
+                    html += ganador;
+                    html += '</h3>';
+                    html += '<table id="tabla_over">';
+                    html += '<tr><th>Jugador</th><th>Puntuación</th></tr>';
+                    html += '<tr><td>' + PARTIDA.jugador1 + '</td><td>' +  PARTIDA.puntuacion1 + '</td></tr>';
+                    html += '<tr><td>' +  PARTIDA.jugador2 + '</td><td>' +  PARTIDA.puntuacion2 + '</td></tr>';
+                    html += '</table>';
+                    html += '<button class="btnn" onclick="cerrarDialogo(0);">ACEPTAR</button>';
+
+                    dialog.innerHTML = html;
+                    // Aplicar el desenfoque al fondo
+                    document.body.style.filter = 'blur(4px)';
+                    document.body.appendChild(dialog);
+                    dialog.classList.add('dialog');
+                    dialog.showModal();
+                }
+            } else {
+                var botonesDerecha = document.getElementsByClassName('seleccionado');
+                console.log("PUNTOS!!");
+                let posiciones = re.CELDAS_SUMA;
+
+                for (let i = 0; i < posiciones.length; i++) {
+                    let posicion = JSON.parse(posiciones[i]);
+                    suma = suma + PARTIDA.tablero[posicion.fila][posicion.col];
+                    // Pintar casilla en blanco
+                    // Limpiar la casilla en blanco utilizando clearRect()
+                    ctx.clearRect(posicion.col * anchocelda + 1 + 4, posicion.fila * altocelda + 1 + 4, anchocelda - 2 * 4 - 2, altocelda - 2 * 4 - 2);
+                    PARTIDA.tablero[posicion.fila][posicion.col] = 0;
+                }
+                suma = suma + numeroSeleccionado;
+                numeroSeleccionado = null;
+
+                console.log(suma);
+                if (PARTIDA.turnojug1 === "juega") {
+                    console.log("puntos para JUG1");
+                    PARTIDA.puntuacion1 = suma;
+                    console.log(suma);
+                } else {
+                    console.log("puntos para JUG2");
+                    PARTIDA.puntuacion2 = suma;
+                }
+                sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
+                actualizarTabla();
+                // Itera sobre los elementos y vacía su contenido
+                for (var i = 0; i < botonesDerecha.length; i++) {
+                    botonesDerecha[i].innerHTML = "&nbsp";
+                    botonesDerecha[i].classList.remove('destacado');
+                    botonesDerecha[i].classList.add('vacio');
+
+                }
             }
 
         }
@@ -374,7 +446,23 @@ function comprobacion(tablero, evt) {
     xhr.send(fd);
 
     console.log(`(fila, col) ${fila} ${col}`);
+    var botonesDerecha = document.getElementsByClassName('vacio');
+    console.log(botonesDerecha.length);
 
+    if (botonesDerecha.length + 1 === 3) {
+        console.log("LLEGUE");
+        //generar los tres numeros aleatorios
+        let numeros = [];
+        while (numeros.length < 3) {
+            let numero = Math.floor(Math.random() * 9) + 1;
+            if (numero !== 5 && !numeros.includes(numero)) {
+                numeros.push(numero);
+            }
+        }
+        PARTIDA.numerosElegibles = numeros;
+        sessionStorage.setItem('PARTIDA', JSON.stringify(PARTIDA));
+        tablaNumeros();
+    }
 }
 function seguirPartida() {
     let cv = document.querySelector('#cv');
@@ -427,6 +515,7 @@ function seguirPartida() {
         if (TABLERO[fila][col] !== 0 || numeroSeleccionado === null) {
             return;
         }
+        TABLERO[fila][col] = numeroSeleccionado;
         comprobacion(TABLERO, evt);
 
 
@@ -458,6 +547,7 @@ function seguirPartida() {
         cv.style.cursor = 'auto';
 
     });
+
 }
 //Botones nav -----------------------------------------------------------------------
 

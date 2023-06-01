@@ -87,16 +87,40 @@
   background-color: white;
   cursor: not-allowed;
 }
-.dialog{
-  width: 20%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
+.dialog {
+  width: 400px;
+  padding: 20px;
+  background-color: #e7fbff;
   border-radius: 10px;
-  border-color: yellow;
+  text-align: center;
 }
 
+#tabla_over {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#tabla_over th, #tabla_over td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+#tabla_over th {
+  background-color: #EDAA72;
+}
+.dialog p{
+  text-align: center;
+}
+.dialog ul{
+  text-align: center;
+  margin-bottom: 10px;
+}
 .dialog h3{
+  text-align: center;
+  margin-top: 0;
+}
+.dialog h2{
   text-align: center;
   margin-top: 0;
 }
