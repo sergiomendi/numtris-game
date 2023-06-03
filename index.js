@@ -48,6 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (sessionStorage['_data_']) {
+        const parsedData = JSON.parse(sessionStorage['_data_']);
+        for (const key in parsedData) {
+            puntuaciones.push(parsedData[key]);
+        }
+        generarTablaPuntuaciones();
         generarTablaPuntuaciones();
     } else {
         const body = document.getElementById('divPuntuaciones');
@@ -84,8 +89,7 @@ function startGame() {
 
         }
         sessionStorage['JUGADORES'] = JSON.stringify(res);
-        if (!sessionStorage['_data_']) 
-        {
+        if (!sessionStorage['_data_']) {
 
             sessionStorage.setItem('_data_', JSON.stringify({}));
         }
