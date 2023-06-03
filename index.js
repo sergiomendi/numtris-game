@@ -84,6 +84,11 @@ function startGame() {
 
         }
         sessionStorage['JUGADORES'] = JSON.stringify(res);
+        if (!sessionStorage['_data_']) 
+        {
+
+            sessionStorage.setItem('_data_', JSON.stringify({}));
+        }
         location.href = 'juego.html';
     }
 }

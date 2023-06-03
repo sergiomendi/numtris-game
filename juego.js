@@ -380,9 +380,14 @@ function comprobacion(tablero, evt) {
                     let ganador;
                     if (PARTIDA.puntuacion1 > PARTIDA.puntuacion2) {
                         ganador = PARTIDA.jugador1;
-                    } else {
+                        
+                    }else{
                         ganador = PARTIDA.jugador2;
+                        
+
                     }
+                    comprobarPuntuaciones(PARTIDA.jugador1,PARTIDA.puntuacion1);
+                    comprobarPuntuaciones(PARTIDA.jugador2,PARTIDA.puntuacion2);
 
                     let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
                         html = '';
@@ -403,6 +408,9 @@ function comprobacion(tablero, evt) {
                     document.body.appendChild(dialog);
                     dialog.classList.add('dialog');
                     dialog.showModal();
+
+                    
+
                 }
             } else {
                 var botonesDerecha = document.getElementsByClassName('seleccionado');
@@ -552,6 +560,7 @@ function seguirPartida() {
 //Botones nav -----------------------------------------------------------------------
 
 function clickAyuda() {
+
     let dialogo = document.createElement('dialog'),
         html = '';
     html += '<p> El juego consiste en ir colocando en las casillas vacías del tablero los números que se proporcionan en grupos de tres.';
@@ -607,4 +616,21 @@ function pintarCanvas() {
     }
 
     ctx.stroke();
+}
+
+
+function comprobarPuntuaciones(nombre,puntos){
+    var data = JSON.parse(sessionStorage.getItem('_data_')) || {};
+    if (Object.keys(data).length < 10) {
+       data[Object.keys(data).length] = {
+        puntuacion:puntos,
+        nombre:nombre
+       }
+        console.log("tendria que aparecer 2 veces")
+        sessionStorage['_data_'] = JSON.stringify(data);
+
+        
+    }//else if (Object.keys(data).length < 10 && ) {
+        
+    // }
 }
