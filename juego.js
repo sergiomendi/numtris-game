@@ -4,6 +4,8 @@ const ALTO = 360;
 let suma = 0;
 let suma2= 0;
 
+let entrart= false;
+
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
 if (sessionStorage['JUGADORES']) {
@@ -456,22 +458,15 @@ function comprobacion(tablero, evt) {
                 }
                 
                 // Itera sobre los elementos y vacía su contenido
-                for (var i = 0; i < PARTIDA.numerosElegibles.length; i++) {
-                    
-                    
-                    if () {
-                        botonesDerecha.innerHTML = "&nbsp";
-                        PARTIDA.numerosElegibles[i].value = null;
-                        console.log("98989")
-                        botonesDerecha.classList.remove('destacado');
-                        botonesDerecha.classList.add('vacio');
-                    }
-                    
-                    
-                
-                    
+                // Itera sobre los elementos y vacía su contenido
+                for (var i = 0; i < botonesDerecha.length; i++) {
+                    botonesDerecha[i].innerHTML = "&nbsp";
+                    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                    botonesDerecha[i].classList.remove('destacado');
+                    botonesDerecha[i].classList.add('vacio');
 
                 }
+                    
                 sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
                 actualizarTabla();
             }
@@ -658,16 +653,14 @@ function pintarCanvas() {
 
 function comprobarPuntuaciones(nombre,puntos){
     var data = JSON.parse(sessionStorage.getItem('_data_')) || {};
-    if (Object.keys(data).length < 10) {
-       data[Object.keys(data).length] = {
-        puntuacion:puntos,
-        nombre:nombre
-       }
-        console.log("tendria que aparecer 2 veces")
-        sessionStorage['_data_'] = JSON.stringify(data);
+
+    data[Object.keys(data).length] = {
+    puntuacion:puntos,
+    nombre:nombre
+    }
+    console.log("tendria que aparecer 2 veces")
+    sessionStorage['_data_'] = JSON.stringify(data);
 
         
-    }//else if (Object.keys(data).length = 10 &&) {
-        
-    //}
+    
 }
