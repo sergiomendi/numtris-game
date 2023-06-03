@@ -2,6 +2,7 @@ let numeroSeleccionado = null;
 const ANCHO = 480;
 const ALTO = 360;
 let suma = 0;
+let suma2= 0;
 
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
@@ -400,7 +401,7 @@ function comprobacion(tablero, evt) {
                     html += '<tr><td>' + PARTIDA.jugador1 + '</td><td>' +  PARTIDA.puntuacion1 + '</td></tr>';
                     html += '<tr><td>' +  PARTIDA.jugador2 + '</td><td>' +  PARTIDA.puntuacion2 + '</td></tr>';
                     html += '</table>';
-                    html += '<button class="btnn" onclick="cerrarDialogo(0);">ACEPTAR</button>';
+                    html += '<button class="btnn" onclick="cerrarDialogoFinal(0);">ACEPTAR</button>';
 
                     dialog.innerHTML = html;
                     // Aplicar el desenfoque al fondo
@@ -416,16 +417,28 @@ function comprobacion(tablero, evt) {
                 var botonesDerecha = document.getElementsByClassName('seleccionado');
                 console.log("PUNTOS!!");
                 let posiciones = re.CELDAS_SUMA;
+                suma = PARTIDA.puntuacion1;
+                suma2 = PARTIDA.puntuacion2;
 
                 for (let i = 0; i < posiciones.length; i++) {
                     let posicion = JSON.parse(posiciones[i]);
-                    suma = suma + PARTIDA.tablero[posicion.fila][posicion.col];
+                    if (PARTIDA.turnojug1 === "juega") {
+                        suma = suma + PARTIDA.tablero[posicion.fila][posicion.col];
+                    }else{
+                        suma2 = suma2 + PARTIDA.tablero[posicion.fila][posicion.col];   
+                    }
+                    
                     // Pintar casilla en blanco
                     // Limpiar la casilla en blanco utilizando clearRect()
                     ctx.clearRect(posicion.col * anchocelda + 1 + 4, posicion.fila * altocelda + 1 + 4, anchocelda - 2 * 4 - 2, altocelda - 2 * 4 - 2);
                     PARTIDA.tablero[posicion.fila][posicion.col] = 0;
                 }
-                suma = suma + numeroSeleccionado;
+                if (PARTIDA.turnojug1 === "juega") {
+                    suma = suma + numeroSeleccionado;
+                }else{
+                    suma2 = suma2 + numeroSeleccionado;
+                }
+                
                 numeroSeleccionado = null;
 
                 console.log(suma);
@@ -433,19 +446,34 @@ function comprobacion(tablero, evt) {
                     console.log("puntos para JUG1");
                     PARTIDA.puntuacion1 = suma;
                     console.log(suma);
+                    PARTIDA.turnojug1 = "espera"
+                    PARTIDA.turnojug2 = "juega"
                 } else {
                     console.log("puntos para JUG2");
-                    PARTIDA.puntuacion2 = suma;
+                    PARTIDA.puntuacion2 = suma2;
+                    PARTIDA.turnojug1 = "juega"
+                    PARTIDA.turnojug2 = "espera"
+                }
+                
+                // Itera sobre los elementos y vacía su contenido
+                for (var i = 0; i < PARTIDA.numerosElegibles.length; i++) {
+                    
+                    
+                    if () {
+                        botonesDerecha.innerHTML = "&nbsp";
+                        PARTIDA.numerosElegibles[i].value = null;
+                        console.log("98989")
+                        botonesDerecha.classList.remove('destacado');
+                        botonesDerecha.classList.add('vacio');
+                    }
+                    
+                    
+                
+                    
+
                 }
                 sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
                 actualizarTabla();
-                // Itera sobre los elementos y vacía su contenido
-                for (var i = 0; i < botonesDerecha.length; i++) {
-                    botonesDerecha[i].innerHTML = "&nbsp";
-                    botonesDerecha[i].classList.remove('destacado');
-                    botonesDerecha[i].classList.add('vacio');
-
-                }
             }
 
         }
@@ -592,6 +620,15 @@ function cerrarDialogo(valor) {
     document.body.style.filter = 'none';
 }
 
+function cerrarDialogoFinal(valor) {
+    console.log(valor);
+    document.querySelector('dialog').close();
+    document.querySelector('dialog').remove();
+    // Restaurar el fondo sin desenfoque
+    document.body.style.filter = 'none';
+
+    terminarPartida();
+}
 
 function pintarCanvas() {
     cv.width = ANCHO;
@@ -630,7 +667,7 @@ function comprobarPuntuaciones(nombre,puntos){
         sessionStorage['_data_'] = JSON.stringify(data);
 
         
-    }//else if (Object.keys(data).length < 10 && ) {
+    }//else if (Object.keys(data).length = 10 &&) {
         
-    // }
+    //}
 }

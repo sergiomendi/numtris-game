@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
             puntuaciones.push(parsedData[key]);
         }
         generarTablaPuntuaciones();
-        generarTablaPuntuaciones();
     } else {
         const body = document.getElementById('divPuntuaciones');
         const noResults = document.createElement('p');
