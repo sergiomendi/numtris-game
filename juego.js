@@ -7,6 +7,8 @@ let claseBoton;
 let casillaAnterior = null;
 
 
+let entrart= false;
+
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
 if (sessionStorage['JUGADORES']) {
@@ -21,7 +23,6 @@ async function tablaNumeros() {
     await esperarCargaSessionStorage();
     let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
     let nums = document.getElementById('nums');
-    console.log(nums.children.length);
 
     // // Verificar si el div está vacío
     // if (nums.children.length === 4) {
@@ -31,7 +32,6 @@ async function tablaNumeros() {
 
     // Limpiar los botones existentes
     nums.innerHTML = '';
-    console.log("HE CREADO BOTONES DE NUEVO");
     for (let i = 0; i < numeros.length; i++) {
         if (numeros[i] !== "&nbsp") {
             let div = document.createElement('button');
@@ -71,12 +71,9 @@ async function tablaNumeros() {
                     // Guardar el número seleccionado
                     numeroSeleccionado = numeros[i];
                     claseBoton = this.classList[1];
-                    console.log(claseBoton);
-                    console.log(numeroSeleccionado);
                 }
             });
         } else {
-            console.log("BOTON VACIO");
             let div = document.createElement('button');
             div.classList.add("numerosElegibles");
             div.classList.add(`${i}`);
@@ -113,13 +110,10 @@ function prepararCanvas() {
 
         xhr.open('GET', url, true);
         xhr.responseType = 'json';
-        console.log(xhr.status)
         xhr.onload = function () {
             r = xhr.response;
-            console.log(r);
             if (r.RESULTADO == 'OK') {
                 ponerEventos(r);
-                console.log(r);
             }
         };
         xhr.send();
@@ -128,7 +122,6 @@ function prepararCanvas() {
     }
     else {
         let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
-        console.log(JSON.parse(sessionStorage.getItem('PARTIDA')).tablero);
         pintarCanvas();
         for (let i = 0; i < TABLERO.length; i++) {
             for (let j = 0; j < TABLERO[i].length; j++) {
@@ -138,7 +131,6 @@ function prepararCanvas() {
                 }
                 if (TABLERO[i][j] !== -1 && TABLERO[i][j] !== 0) {
                     //Si es distinto de ambos, rellenar el hueco
-                    console.log("entra");
 
                     // Recorrer la matriz y colocar los números en el canvas
 
@@ -163,7 +155,6 @@ function prepararCanvas() {
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
 async function actualizarTabla() {
     await esperarCargaSessionStorage();             // Espera a que el session storage se cargue
-    console.log("ACTUALIZA");
     let tbody = document.getElementById('datostabla');
 
     let fila1 = 0; // Índice de la primera fila
@@ -244,7 +235,6 @@ function ponerEventos(r) {
         dialog.showModal();
 
     }
-    console.log(numeroAleatorio);
 
     let jug11 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
     let jug22 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
@@ -271,13 +261,11 @@ function ponerEventos(r) {
         }
     }
 
-    console.log(numeros);
     let copiatablero = r.TABLERO;
     let jug1 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
     let jug2 = JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
     let puntuacion1 = 0;
     let puntuacion2 = 0;
-    console.log(copiatablero)
 
     let res = {
         "jugador1": jug1,
@@ -337,13 +325,11 @@ function ponerEventos(r) {
         col = Math.floor(x / anchocelda);
 
 
-        // console.log(r.TABLERO[fila][col]);
 
         if (tablero[fila][col] !== 0 || numeroSeleccionado === null) {
             return;
         }
         tablero[fila][col] = numeroSeleccionado;
-        console.log(tablero);
 
         comprobacion(tablero, evt);
 
@@ -411,7 +397,6 @@ function comprobacion(tablero, evt) {
     fila = Math.floor(y / altocelda);
     col = Math.floor(x / anchocelda);
 
-    console.log(JSON.stringify(tablero));
     let fd = new FormData();
     let xhr = new XMLHttpRequest(),
         url = 'api/comprobar',
@@ -419,11 +404,9 @@ function comprobacion(tablero, evt) {
 
     xhr.open('POST', url, true);
     xhr.responseType = 'json';
-    console.log(xhr.status)
     xhr.onload = function () {
         re = xhr.response;
         if (re.RESULTADO == 'OK') {
-            console.log(re);
             if (numeroSeleccionado != null && re.CELDAS_SUMA.length === 0) {
                 var botonesDerecha = document.getElementsByClassName('seleccionado');
                 // Itera sobre los elementos y vacía su contenido
@@ -494,7 +477,6 @@ function comprobacion(tablero, evt) {
                 sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
             } else {
                 var botonesDerecha = document.getElementsByClassName('seleccionado');
-                console.log("PUNTOS!!");
                 let posiciones = re.CELDAS_SUMA;
                 suma = PARTIDA.puntuacion1;
                 suma2 = PARTIDA.puntuacion2;
@@ -520,13 +502,9 @@ function comprobacion(tablero, evt) {
 
                 numeroSeleccionado = null;
 
-                console.log(suma);
                 if (PARTIDA.turnojug1 === "juega") {
-                    console.log("puntos para JUG1");
                     PARTIDA.puntuacion1 = suma;
-                    console.log(suma);
                 } else {
-                    console.log("puntos para JUG2");
                     PARTIDA.puntuacion2 = suma2;
                 }
 
@@ -537,6 +515,7 @@ function comprobacion(tablero, evt) {
                     botonesDerecha[i].classList.add('vacio');
 
                 }
+                    
                 sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
                 actualizarTabla();
             }
@@ -546,12 +525,9 @@ function comprobacion(tablero, evt) {
     fd.append('tablero', JSON.stringify(tablero));
     xhr.send(fd);
 
-    console.log(`(fila, col) ${fila} ${col}`);
     var botonesDerecha = document.getElementsByClassName('vacio');
-    console.log(botonesDerecha.length);
 
     if (botonesDerecha.length + 1 === 3) {
-        console.log("LLEGUE");
         //generar los tres numeros aleatorios
         let numeros = [];
         while (numeros.length < 3) {
@@ -697,7 +673,6 @@ function terminarPartida() {
 }
 
 function cerrarDialogo(valor) {
-    console.log(valor);
     document.querySelector('dialog').close();
     document.querySelector('dialog').remove();
     // Restaurar el fondo sin desenfoque
@@ -705,7 +680,6 @@ function cerrarDialogo(valor) {
 }
 
 function cerrarDialogoFinal(valor) {
-    console.log(valor);
     document.querySelector('dialog').close();
     document.querySelector('dialog').remove();
     // Restaurar el fondo sin desenfoque
@@ -747,7 +721,6 @@ function comprobarPuntuaciones(nombre, puntos) {
             puntuacion: puntos,
             nombre: nombre
         }
-        console.log("tendria que aparecer 2 veces")
         sessionStorage['_data_'] = JSON.stringify(data);
 
 
