@@ -2,7 +2,10 @@ let numeroSeleccionado = null;
 const ANCHO = 480;
 const ALTO = 360;
 let suma = 0;
-let suma2= 0;
+let suma2 = 0;
+let claseBoton;
+let casillaAnterior = null;
+
 
 // -------------- COMPROBACIÓN DE SI ESTÁ JUGANDO ------------------------------------------------
 
@@ -17,57 +20,85 @@ if (sessionStorage['JUGADORES']) {
 async function tablaNumeros() {
     await esperarCargaSessionStorage();
     let numeros = JSON.parse(sessionStorage.getItem('PARTIDA')).numerosElegibles;
-    console.log(numeros);
     let nums = document.getElementById('nums');
+    console.log(nums.children.length);
 
-    // Verificar si el div está vacío
-    if (nums.innerHTML !== '') {
-        // Limpiar los botones existentes
-        nums.innerHTML = '';
-    }
+    // // Verificar si el div está vacío
+    // if (nums.children.length === 4) {
+    //     // No hacer nada si ya existen los botones
+    //     return;
+    // }
 
+    // Limpiar los botones existentes
+    nums.innerHTML = '';
+    console.log("HE CREADO BOTONES DE NUEVO");
     for (let i = 0; i < numeros.length; i++) {
-        let div = document.createElement('button');
-        div.classList.add("numerosElegibles");
-        div.classList.add(`${i}`);
-        //div.classList.add(`${i}`);
-        div.id = "numerosElegibles";
-        div.innerHTML = numeros[i];
-        nums.appendChild(div);
+        if (numeros[i] !== "&nbsp") {
+            let div = document.createElement('button');
+            div.classList.add("numerosElegibles");
+            div.classList.add(`${i}`);
+            //div.classList.add(`${i}`);
+            // div.id = "numerosElegibles";
+            div.innerHTML = numeros[i];
+            nums.appendChild(div);
 
-        div.addEventListener('mouseover', function () {
-            if (!div.classList.contains('vacio')) {
-                div.style.cursor = 'pointer';
-                div.classList.add('destacado');
+            div.addEventListener('mouseover', function () {
+                if (!div.classList.contains('vacio')) {
+                    div.style.cursor = 'pointer';
+                    div.classList.add('destacado');
 
-            } else {
-                div.style.cursor = 'not-allowed';
-            }
-        });
-
-        div.addEventListener('mouseout', function () {
-            div.style.cursor = 'auto';
-            div.classList.remove('destacado');
-        });
-
-        div.addEventListener('click', function () {
-            let seleccionados = document.getElementsByClassName('seleccionado');
-            if (!div.classList.contains('vacio')) {
-                // Limpiar selección previa
-                let seleccionados = document.getElementsByClassName('seleccionado');
-                for (let j = 0; j < seleccionados.length; j++) {
-                    seleccionados[j].classList.remove('seleccionado');
+                } else {
+                    div.style.cursor = 'not-allowed';
                 }
+            });
 
-                // Seleccionar el número actual
-                div.classList.add('seleccionado');
-                // Guardar el número seleccionado
-                numeroSeleccionado = numeros[i];
-                console.log(numeroSeleccionado);
-            }
-        });
+            div.addEventListener('mouseout', function () {
+                div.style.cursor = 'auto';
+                div.classList.remove('destacado');
+            });
+
+            div.addEventListener('click', function () {
+                let seleccionados = document.getElementsByClassName('seleccionado');
+                if (!div.classList.contains('vacio')) {
+                    // Limpiar selección previa
+                    let seleccionados = document.getElementsByClassName('seleccionado');
+                    for (let j = 0; j < seleccionados.length; j++) {
+                        seleccionados[j].classList.remove('seleccionado');
+                    }
+
+                    // Seleccionar el número actual
+                    div.classList.add('seleccionado');
+                    // Guardar el número seleccionado
+                    numeroSeleccionado = numeros[i];
+                    claseBoton = this.classList[1];
+                    console.log(claseBoton);
+                    console.log(numeroSeleccionado);
+                }
+            });
+        } else {
+            console.log("BOTON VACIO");
+            let div = document.createElement('button');
+            div.classList.add("numerosElegibles");
+            div.classList.add(`${i}`);
+            div.classList.add('vacio');
+            //div.classList.add(`${i}`);
+            div.id = "numerosElegibles";
+            div.innerHTML = "&nbsp";
+            nums.appendChild(div);
+
+            div.addEventListener('mouseover', function () {
+
+                div.style.cursor = 'not-allowed';
+
+            });
+
+            div.addEventListener('mouseout', function () {
+                div.style.cursor = 'auto';
+                div.classList.remove('destacado');
+            });
+
+        }
     }
-
 }
 tablaNumeros();
 //--------------------PREPARAR CANVAS------------------------------------------------------------------
@@ -114,7 +145,7 @@ function prepararCanvas() {
                     let numero = TABLERO[i][j];
 
                     ctx.font = 'bold 30px Arial';
-                    ctx.fillStyle = 'blue';
+                    ctx.fillStyle = 'black';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
@@ -176,7 +207,8 @@ function esperarCargaSessionStorage() {
 function ponerEventos(r) {
     let celdasClicables = true;
     let numeroAleatorio = Math.round(Math.random());
-
+    let filaAnterior = -1;
+    let colAnterior = -1;
     let turnoJugador1 = "espera",
         turnojugador2 = "espera";
     if (numeroAleatorio == 0) {
@@ -268,6 +300,30 @@ function ponerEventos(r) {
             }
         }
     }
+    function drawCells() {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        pintarCanvas();
+        let partida = JSON.parse(sessionStorage.getItem('PARTIDA')); // Obtener la partida actualizada
+    
+        for (let i = 0; i < partida.tablero.length; i++) {
+          for (let j = 0; j < partida.tablero[i].length; j++) {
+            if (partida.tablero[i][j] == -1) {
+              ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
+              ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
+            }
+    
+            if (partida.tablero[i][j] !== -1 && partida.tablero[i][j] !== 0) {
+              let numero = partida.tablero[i][j];
+    
+              ctx.font = 'bold 30px Arial';
+              ctx.fillStyle = 'black';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
+            }
+          }
+        }
+      }
 
     cv.addEventListener('click', function (evt) {
         let x = evt.offsetX;
@@ -312,12 +368,34 @@ function ponerEventos(r) {
                 cv.style.cursor = 'not-allowed';
             } else {
                 cv.style.cursor = 'pointer';
+                if (fila !== filaAnterior || col !== colAnterior) {
+                    drawCells();
+          
+                    ctx.strokeStyle = 'yellow';
+                    ctx.lineWidth = 3;
+          
+                    ctx.beginPath();
+                    ctx.moveTo(col * anchocelda, fila * altocelda);
+                    ctx.lineTo((col + 1) * anchocelda, fila * altocelda);
+                    ctx.moveTo((col + 1) * anchocelda, fila * altocelda);
+                    ctx.lineTo((col + 1) * anchocelda, (fila + 1) * altocelda);
+                    ctx.moveTo((col + 1) * anchocelda, (fila + 1) * altocelda);
+                    ctx.lineTo(col * anchocelda, (fila + 1) * altocelda);
+                    ctx.moveTo(col * anchocelda, (fila + 1) * altocelda);
+                    ctx.lineTo(col * anchocelda, fila * altocelda);
+                    ctx.stroke();
+          
+                    filaAnterior = fila;
+                    colAnterior = col;
+                  }
             }
         }
     });
     cv.addEventListener('mouseout', function () {
         cv.style.cursor = 'auto';
-
+        drawCells();
+        filaAnterior = -1;
+        colAnterior = -1;
     });
 
 
@@ -356,7 +434,7 @@ function comprobacion(tablero, evt) {
                 }
                 // Pintar el número en la casilla correspondiente del canvas
                 ctx.font = 'bold 30px Arial';
-                ctx.fillStyle = 'blue';
+                ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(numeroSeleccionado, col * anchocelda + anchocelda / 2, fila * altocelda + altocelda / 2);
@@ -381,14 +459,14 @@ function comprobacion(tablero, evt) {
                     let ganador;
                     if (PARTIDA.puntuacion1 > PARTIDA.puntuacion2) {
                         ganador = PARTIDA.jugador1;
-                        
-                    }else{
+
+                    } else {
                         ganador = PARTIDA.jugador2;
-                        
+
 
                     }
-                    comprobarPuntuaciones(PARTIDA.jugador1,PARTIDA.puntuacion1);
-                    comprobarPuntuaciones(PARTIDA.jugador2,PARTIDA.puntuacion2);
+                    comprobarPuntuaciones(PARTIDA.jugador1, PARTIDA.puntuacion1);
+                    comprobarPuntuaciones(PARTIDA.jugador2, PARTIDA.puntuacion2);
 
                     let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
                         html = '';
@@ -398,8 +476,8 @@ function comprobacion(tablero, evt) {
                     html += '</h3>';
                     html += '<table id="tabla_over">';
                     html += '<tr><th>Jugador</th><th>Puntuación</th></tr>';
-                    html += '<tr><td>' + PARTIDA.jugador1 + '</td><td>' +  PARTIDA.puntuacion1 + '</td></tr>';
-                    html += '<tr><td>' +  PARTIDA.jugador2 + '</td><td>' +  PARTIDA.puntuacion2 + '</td></tr>';
+                    html += '<tr><td>' + PARTIDA.jugador1 + '</td><td>' + PARTIDA.puntuacion1 + '</td></tr>';
+                    html += '<tr><td>' + PARTIDA.jugador2 + '</td><td>' + PARTIDA.puntuacion2 + '</td></tr>';
                     html += '</table>';
                     html += '<button class="btnn" onclick="cerrarDialogoFinal(0);">ACEPTAR</button>';
 
@@ -410,9 +488,10 @@ function comprobacion(tablero, evt) {
                     dialog.classList.add('dialog');
                     dialog.showModal();
 
-                    
+
 
                 }
+                sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
             } else {
                 var botonesDerecha = document.getElementsByClassName('seleccionado');
                 console.log("PUNTOS!!");
@@ -424,10 +503,10 @@ function comprobacion(tablero, evt) {
                     let posicion = JSON.parse(posiciones[i]);
                     if (PARTIDA.turnojug1 === "juega") {
                         suma = suma + PARTIDA.tablero[posicion.fila][posicion.col];
-                    }else{
-                        suma2 = suma2 + PARTIDA.tablero[posicion.fila][posicion.col];   
+                    } else {
+                        suma2 = suma2 + PARTIDA.tablero[posicion.fila][posicion.col];
                     }
-                    
+
                     // Pintar casilla en blanco
                     // Limpiar la casilla en blanco utilizando clearRect()
                     ctx.clearRect(posicion.col * anchocelda + 1 + 4, posicion.fila * altocelda + 1 + 4, anchocelda - 2 * 4 - 2, altocelda - 2 * 4 - 2);
@@ -435,10 +514,10 @@ function comprobacion(tablero, evt) {
                 }
                 if (PARTIDA.turnojug1 === "juega") {
                     suma = suma + numeroSeleccionado;
-                }else{
+                } else {
                     suma2 = suma2 + numeroSeleccionado;
                 }
-                
+
                 numeroSeleccionado = null;
 
                 console.log(suma);
@@ -446,30 +525,16 @@ function comprobacion(tablero, evt) {
                     console.log("puntos para JUG1");
                     PARTIDA.puntuacion1 = suma;
                     console.log(suma);
-                    PARTIDA.turnojug1 = "espera"
-                    PARTIDA.turnojug2 = "juega"
                 } else {
                     console.log("puntos para JUG2");
                     PARTIDA.puntuacion2 = suma2;
-                    PARTIDA.turnojug1 = "juega"
-                    PARTIDA.turnojug2 = "espera"
                 }
-                
+
                 // Itera sobre los elementos y vacía su contenido
-                for (var i = 0; i < PARTIDA.numerosElegibles.length; i++) {
-                    
-                    
-                    if () {
-                        botonesDerecha.innerHTML = "&nbsp";
-                        PARTIDA.numerosElegibles[i].value = null;
-                        console.log("98989")
-                        botonesDerecha.classList.remove('destacado');
-                        botonesDerecha.classList.add('vacio');
-                    }
-                    
-                    
-                
-                    
+                for (var i = 0; i < botonesDerecha.length; i++) {
+                    botonesDerecha[i].innerHTML = "&nbsp";
+                    botonesDerecha[i].classList.remove('destacado');
+                    botonesDerecha[i].classList.add('vacio');
 
                 }
                 sessionStorage.setItem("PARTIDA", JSON.stringify(PARTIDA));
@@ -498,93 +563,112 @@ function comprobacion(tablero, evt) {
         PARTIDA.numerosElegibles = numeros;
         sessionStorage.setItem('PARTIDA', JSON.stringify(PARTIDA));
         tablaNumeros();
+    } else {
+
+        PARTIDA.numerosElegibles[claseBoton] = "&nbsp";
+
     }
 }
 function seguirPartida() {
     let cv = document.querySelector('#cv');
-    let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
-    if (partida.turnojug1 === "juega") {
-        turnoJugador1 = "juega";
-        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
-            html = '';
-        html += '<h3>¡Es el turno de ';
-        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador1;
-        html += '!</h3>';
-        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
-
-        dialog.innerHTML = html;
-        // Aplicar el desenfoque al fondo
-        document.body.style.filter = 'blur(4px)';
-        document.body.appendChild(dialog);
-        dialog.classList.add('dialog');
-        dialog.showModal();
-    } else {
-        turnoJugador2 = "juega";
-        let dialog = document.createElement('dialog'),				//CREAMOS DIÁLOGO HTML
-            html = '';
-        html += '<h3>¡Es el turno de ';
-        html += JSON.parse(sessionStorage.getItem('JUGADORES')).jugador2;
-        html += '!</h3>';
-        html += '<button class="btnn" onclick="cerrarDialogo(0);">Close</button>';
-
-        dialog.innerHTML = html;
-        // Aplicar el desenfoque al fondo
-        document.body.style.filter = 'blur(4px)';
-        document.body.appendChild(dialog);
-        dialog.classList.add('dialog');
-        dialog.showModal();
+    const ctx = cv.getContext('2d');
+    const ANCHO = cv.width;
+    const ALTO = cv.height;
+    const altocelda = ALTO / 4;
+    const anchocelda = ANCHO / 4;
+    let filaAnterior = -1;
+    let colAnterior = -1;
+  
+    function drawCells() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      pintarCanvas();
+      let partida = JSON.parse(sessionStorage.getItem('PARTIDA')); // Obtener la partida actualizada
+  
+      for (let i = 0; i < partida.tablero.length; i++) {
+        for (let j = 0; j < partida.tablero[i].length; j++) {
+          if (partida.tablero[i][j] == -1) {
+            ctx.fillStyle = 'rgba(128, 128, 128, 0.3)';
+            ctx.fillRect(j * anchocelda, i * altocelda, anchocelda, altocelda);
+          }
+  
+          if (partida.tablero[i][j] !== -1 && partida.tablero[i][j] !== 0) {
+            let numero = partida.tablero[i][j];
+  
+            ctx.font = 'bold 30px Arial';
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(numero, j * anchocelda + anchocelda / 2, i * altocelda + altocelda / 2);
+          }
+        }
+      }
     }
-    cv.addEventListener('click', function (evt) {
-        let x = evt.offsetX;
-        let y = evt.offsetY;
-        let altocelda = ALTO / 4;
-        let anchocelda = ANCHO / 4;
-        let fila, col;
-        let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
-        let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
-        fila = Math.floor(y / altocelda);
-        col = Math.floor(x / anchocelda);
-        var botonesDerecha = document.getElementsByClassName('seleccionado');
-        console.log(TABLERO);
-
-
-        if (TABLERO[fila][col] !== 0 || numeroSeleccionado === null) {
-            return;
-        }
-        TABLERO[fila][col] = numeroSeleccionado;
-        comprobacion(TABLERO, evt);
-
-
-
-    });
-
+  
     cv.addEventListener('mousemove', function (evt) {
-        let x = Math.min(Math.max(evt.offsetX, 0), ANCHO - 1); // Asegurarse de que x esté dentro de los límites del canvas
-        let y = Math.min(Math.max(evt.offsetY, 0), ALTO - 1); // Asegurarse de que y esté dentro de los límites del canvas
-        let altocelda = ALTO / 4;
-        let anchocelda = ANCHO / 4;
-        let fila = Math.floor(y / altocelda);
-        let col = Math.floor(x / anchocelda);
-        let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
-        let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
-
-        if (fila >= 0 && fila < 4 && col >= 0 && col < 4) {
-
-            if (TABLERO[fila][col] !== 0 || numeroSeleccionado === null) {
-                cv.style.cursor = 'not-allowed';
-            } else {
-                cv.style.cursor = 'pointer';
-                // ctx.fillStyle = 'yellow'; // Color de fondo de la casilla resaltada
-                // ctx.fillRect(col * anchocelda, fila * altocelda, anchocelda, altocelda);
-            }
+      let x = Math.min(Math.max(evt.offsetX, 0), ANCHO - 1);
+      let y = Math.min(Math.max(evt.offsetY, 0), ALTO - 1);
+      let fila = Math.floor(y / altocelda);
+      let col = Math.floor(x / anchocelda);
+      let TABLERO = JSON.parse(sessionStorage.getItem('PARTIDA')).tablero;
+  
+      if (fila >= 0 && fila < 4 && col >= 0 && col < 4) {
+        if (TABLERO[fila][col] !== 0 || numeroSeleccionado === null) {
+          cv.style.cursor = 'not-allowed';
+        } else {
+          cv.style.cursor = 'pointer';
+  
+          if (fila !== filaAnterior || col !== colAnterior) {
+            drawCells();
+  
+            ctx.strokeStyle = 'yellow';
+            ctx.lineWidth = 3;
+  
+            ctx.beginPath();
+            ctx.moveTo(col * anchocelda, fila * altocelda);
+            ctx.lineTo((col + 1) * anchocelda, fila * altocelda);
+            ctx.moveTo((col + 1) * anchocelda, fila * altocelda);
+            ctx.lineTo((col + 1) * anchocelda, (fila + 1) * altocelda);
+            ctx.moveTo((col + 1) * anchocelda, (fila + 1) * altocelda);
+            ctx.lineTo(col * anchocelda, (fila + 1) * altocelda);
+            ctx.moveTo(col * anchocelda, (fila + 1) * altocelda);
+            ctx.lineTo(col * anchocelda, fila * altocelda);
+            ctx.stroke();
+  
+            filaAnterior = fila;
+            colAnterior = col;
+          }
         }
+      }
     });
+  
     cv.addEventListener('mouseout', function () {
-        cv.style.cursor = 'auto';
-
+      cv.style.cursor = 'auto';
+      drawCells();
+      filaAnterior = -1;
+      colAnterior = -1;
     });
+  
+    cv.addEventListener('click', function (evt) {
+      let x = evt.offsetX;
+      let y = evt.offsetY;
+      let fila = Math.floor(y / altocelda);
+      let col = Math.floor(x / anchocelda);
+      let partida = JSON.parse(sessionStorage.getItem('PARTIDA'));
+      let TABLERO = partida.tablero; // Usar la partida actualizada
+  
+      if (TABLERO[fila][col] !== 0 || numeroSeleccionado === null) {
+        return;
+      }
+  
+      TABLERO[fila][col] = numeroSeleccionado;
+      comprobacion(TABLERO, evt);
+      drawCells();
+    });
+  
+    drawCells();
+  }
+  
 
-}
 //Botones nav -----------------------------------------------------------------------
 
 function clickAyuda() {
@@ -656,18 +740,18 @@ function pintarCanvas() {
 }
 
 
-function comprobarPuntuaciones(nombre,puntos){
+function comprobarPuntuaciones(nombre, puntos) {
     var data = JSON.parse(sessionStorage.getItem('_data_')) || {};
     if (Object.keys(data).length < 10) {
-       data[Object.keys(data).length] = {
-        puntuacion:puntos,
-        nombre:nombre
-       }
+        data[Object.keys(data).length] = {
+            puntuacion: puntos,
+            nombre: nombre
+        }
         console.log("tendria que aparecer 2 veces")
         sessionStorage['_data_'] = JSON.stringify(data);
 
-        
+
     }//else if (Object.keys(data).length = 10 &&) {
-        
+
     //}
 }
